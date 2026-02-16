@@ -2,7 +2,7 @@ import { TextField } from "@mui/material";
 import { extractNumbers, formatPhoneNumber } from "@/utils/formatter.js";
 
 function PhoneNumberField({ variant = 'standard', label = 'Telefon raqam', value, onChange, ...props }) {
-    const handlePhoneNumber = (e) => {
+    const handleChange = (e) => {
         const val = formatPhoneNumber(e.target.value)
 
         onChange(extractNumbers(val))
@@ -14,7 +14,7 @@ function PhoneNumberField({ variant = 'standard', label = 'Telefon raqam', value
             variant={ variant }
             defaultValue={ `+998` }
             value={ formatPhoneNumber(value) }
-            onChange={ handlePhoneNumber }
+            onChange={ handleChange }
             { ...props }
         />
     )

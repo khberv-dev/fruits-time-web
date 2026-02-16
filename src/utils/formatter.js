@@ -23,5 +23,8 @@ export function formatDateTime(date) {
 }
 
 export function formatNumber(num) {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+    const numStr = (num || '0').toString().replace(/\D/g, '')
+
+    return Number(numStr).toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
 }

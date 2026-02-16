@@ -3,10 +3,16 @@ import { useForm } from "react-hook-form";
 import { CloudUpload } from "@mui/icons-material";
 import VisuallyHiddenInput from "@/ui/components/visually-hidden-input/index.jsx";
 import { useCreateCategory } from "@/services/category/query.js";
+import { useState } from "react";
 
 function AddCategoryDialog({ open, onClose }) {
     const { handleSubmit, register, reset } = useForm()
     const createCategory = useCreateCategory()
+    const [fileName, setFileName] = useState(null)
+
+    const handleUploadFile = (e) => {
+        setFileName(e.target.files[0].name)
+    }
 
     const onSubmit = (data) => {
         const formData = new FormData()
@@ -35,11 +41,11 @@ function AddCategoryDialog({ open, onClose }) {
                         component={ 'label' }
                         variant={ 'contained' }
                         startIcon={ <CloudUpload/> }>
-                        Rasm yuklash
+                        { fileName || 'Rasm yuklash' }
                         <VisuallyHiddenInput
                             type={ 'file' }
                             accept={ 'image/png' }
-                            { ...register('file', { required: true }) }/>
+                            { ...register('file', { required: true, onChange: handleUploadFile }) }/>
                     </Button>
                 </DialogContent>
                 <DialogActions>
