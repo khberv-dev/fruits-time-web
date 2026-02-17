@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 function DigitalStatsCard({ icon, title, value }) {
     return (
         <div className={ st.container }>
-            <div className={st.icon}>
+            <div className={ st.icon }>
                 { icon }
             </div>
             <div>

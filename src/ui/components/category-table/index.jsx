@@ -1,8 +1,9 @@
-import { Switch } from "@mui/material";
+import { IconButton, Switch } from "@mui/material";
 import { formatDateTime } from "@/utils/formatter.js";
 import ItemsTable from "@/ui/components/items-table/index.jsx";
+import { Delete, Edit } from "@mui/icons-material";
 
-function CategoryTable({ data, onIsActiveUpdate }) {
+function CategoryTable({ data, onIsActiveUpdate, onEditClick, onDeleteClick }) {
     const columns = [
         {
             name: '',
@@ -27,6 +28,14 @@ function CategoryTable({ data, onIsActiveUpdate }) {
         {
             name: 'Sanasi',
             render: (item) => formatDateTime(item.createdAt)
+        },
+        {
+            name: '',
+            render: (item) =>
+                <div className={ 'd-flex gap-2' }>
+                    <IconButton onClick={ () => onEditClick(item) }><Edit/></IconButton>
+                    <IconButton onClick={ () => onDeleteClick(item) }><Delete/></IconButton>
+                </div>
         }
     ]
 

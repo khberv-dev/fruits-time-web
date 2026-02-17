@@ -23,8 +23,9 @@ function PasswordField({ variant = 'standard', label = 'Parol', value, onChange,
                         <IconButton
                             size={ 'small' }
                             edge={ 'end' }
-                            children={ !isPasswordVisible ? <Visibility/> : <VisibilityOff/> }
-                            onClick={ onToggleVisibility }/>
+                            onClick={ onToggleVisibility }>
+                            { !isPasswordVisible ? <Visibility/> : <VisibilityOff/> }
+                        </IconButton>
                     </InputAdornment>)
                 }
             } }

@@ -4,7 +4,7 @@ import { useAlert } from "@/providers/alert/useAlert.js";
 
 export const useSignIn = () => {
     const client = useQueryClient()
-    const {show} = useAlert()
+    const { show } = useAlert()
 
     return useMutation({
         mutationFn: (data) => signIn(data),

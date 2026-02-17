@@ -1,13 +1,16 @@
 import { Button, Typography } from "@mui/material";
 import CategoryTable from "@/ui/components/category-table/index.jsx";
 import { useGetCategories, useUpdateCategory } from "@/services/category/query.js";
-import AddCategoryDialog from "@/ui/components/add-category-dialog/index.jsx";
+import AddCategoryDialog from "@/ui/layouts/add-category-dialog/index.jsx";
 import { useState } from "react";
+import EditCategoryDialog from "@/ui/layouts/edit-category-dialog/index.jsx";
 
 function CategoriesPage() {
     const { data } = useGetCategories(1, 100)
     const [isAddCategoryDialogOpen, setIsAddCategoryDialogOpen] = useState(false)
+    const [isUpdateCategoryDialogOpen, setIsUpdateCategoryDialogOpen] = useState(false)
     const updateCategory = useUpdateCategory()
+    const [categoryToEdit, setCategoryToEdit] = useState(null)
 
     const handleCategoryActiveUpdated = (categoryId, checked) => {
         updateCategory.mutate({
@@ -16,6 +19,11 @@ function CategoriesPage() {
                 isActive: checked
             }
         })
+    }
+
+    const handleEditCategoryClick = (category) => {
+        setIsUpdateCategoryDialogOpen(true)
+        setCategoryToEdit(category)
     }
 
     return (
@@ -32,10 +40,15 @@ function CategoriesPage() {
             </div>
             <CategoryTable
                 data={ data || [] }
-                onIsActiveUpdate={ handleCategoryActiveUpdated }/>
+                onIsActiveUpdate={ handleCategoryActiveUpdated }
+                onEditClick={ handleEditCategoryClick }/>
             <AddCategoryDialog
                 open={ isAddCategoryDialogOpen }
                 onClose={ () => setIsAddCategoryDialogOpen(false) }/>
+            <EditCategoryDialog
+                open={ isUpdateCategoryDialogOpen }
+                onClose={ () => setIsUpdateCategoryDialogOpen(false) }
+                category={ categoryToEdit }/>
         </div>
     )
 }

@@ -13,14 +13,15 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import { CloudUpload } from "@mui/icons-material";
 import VisuallyHiddenInput from "@/ui/components/visually-hidden-input/index.jsx";
-import { useState } from "react";
-import { useCreateProduct } from "@/services/product/query.js";
+import { useEffect, useState } from "react";
+import { useUpdateProduct } from "@/services/product/query.js";
 import { useGetCategories } from "@/services/category/query.js";
 import NumberField from "@/ui/components/number-field/index.jsx";
+import { objectToFormData } from "@/utils/lib.js";
 
-function AddProductDialog({ open, onClose }) {
+function EditProductDialog({ open, onClose, product }) {
     const { handleSubmit, register, reset, control } = useForm()
-    const createProduct = useCreateProduct()
+    const updateProduct = useUpdateProduct()
     const { data: categories } = useGetCategories(1, 999)
     const [fileName, setFileName] = useState(null)
 
@@ -29,15 +30,22 @@ function AddProductDialog({ open, onClose }) {
     }
 
     const onSubmit = (data) => {
-        const formData = new FormData()
+        const formData = objectToFormData(data)
 
-        formData.append('title', data.title)
-        formData.append('file', data.file[0])
-
-        createProduct.mutateAsync(formData).then(() => {
-            reset()
+        updateProduct.mutateAsync({
+            id: product.id,
+            data: formData
+        }).then(() => {
             onClose()
         })
+    }
+
+    useEffect(() => {
+        reset()
+    }, [open])
+
+    if (!product) {
+        return
     }
 
     return (
@@ -48,15 +56,17 @@ function AddProductDialog({ open, onClose }) {
             <form onSubmit={ handleSubmit(onSubmit) }>
                 <DialogContent className={ 'd-flex flex-column gap-3' }>
                     <TextField
+                        defaultValue={ product.title }
                         fullWidth={ true }
                         label={ 'Nomi' }
-                        { ...register('title', { required: true }) }/>
+                        { ...register('title') }/>
                     <FormControl>
                         <InputLabel id={ 'input-product-category' }>Katalog</InputLabel>
                         <Select
+                            defaultValue={ product.category.id }
                             variant={ 'outlined' }
                             label={ 'Katalog' }
-                            { ...register('categoryId', { required: true }) }>
+                            { ...register('categoryId') }>
                             <MenuItem disabled>Tanlang</MenuItem>
                             { (categories || []).map((item) =>
                                 <MenuItem value={ item.id }>{ item.title }</MenuItem>
@@ -66,9 +76,10 @@ function AddProductDialog({ open, onClose }) {
                     <FormControl>
                         <InputLabel id={ 'input-product-category' }>Turi</InputLabel>
                         <Select
+                            defaultValue={ product.type }
                             variant={ 'outlined' }
                             label={ 'Turi' }
-                            { ...register('type', { required: true }) }>
+                            { ...register('type') }>
                             <MenuItem disabled>Tanlang</MenuItem>
                             <MenuItem value='FRUIT'>Meva</MenuItem>
                             <MenuItem value='VITAMIN'>Vitamin</MenuItem>
@@ -77,7 +88,7 @@ function AddProductDialog({ open, onClose }) {
                     <Controller
                         name={ 'price' }
                         control={ control }
-                        rules={ { required: true } }
+                        defaultValue={ product.price }
                         render={ ({ field }) =>
                             <NumberField
                                 variant={ 'outlined' }
@@ -94,7 +105,7 @@ function AddProductDialog({ open, onClose }) {
                         <VisuallyHiddenInput
                             type={ 'file' }
                             accept={ 'image/png' }
-                            { ...register('file', { required: true, onChange: handleUploadFile }) }/>
+                            { ...register('file', { onChange: handleUploadFile }) }/>
                     </Button>
                 </DialogContent>
                 <DialogActions>
@@ -105,7 +116,7 @@ function AddProductDialog({ open, onClose }) {
                         Yopish
                     </Button>
                     <Button
-                        loading={ createProduct.isPending }
+                        loading={ updateProduct.isPending }
                         type={ 'submit' }
                         variant={ 'contained' }>
                         Saqlash
@@ -116,4 +127,4 @@ function AddProductDialog({ open, onClose }) {
     )
 }
 
-export default AddProductDialog
+export default EditProductDialog

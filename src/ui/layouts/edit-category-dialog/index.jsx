@@ -1,13 +1,14 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { useUpdateCategory } from "@/services/category/query.js";
+import { useEffect, useState } from "react";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { CloudUpload } from "@mui/icons-material";
 import VisuallyHiddenInput from "@/ui/components/visually-hidden-input/index.jsx";
-import { useCreateCategory } from "@/services/category/query.js";
-import { useState } from "react";
+import { objectToFormData } from "@/utils/lib.js";
 
-function AddCategoryDialog({ open, onClose }) {
+function EditCategoryDialog({ open, onClose, category }) {
     const { handleSubmit, register, reset } = useForm()
-    const createCategory = useCreateCategory()
+    const updateCategory = useUpdateCategory()
     const [fileName, setFileName] = useState(null)
 
     const handleUploadFile = (e) => {
@@ -15,15 +16,19 @@ function AddCategoryDialog({ open, onClose }) {
     }
 
     const onSubmit = (data) => {
-        const formData = new FormData()
+        const formData = objectToFormData(data)
 
-        formData.append('title', data.title)
-        formData.append('file', data.file[0])
-
-        createCategory.mutateAsync(formData).then(() => {
-            reset()
+        updateCategory.mutateAsync({ id: category.id, data: formData }).then(() => {
             onClose()
         })
+    }
+
+    useEffect(() => {
+        reset()
+    }, [open])
+
+    if (!category) {
+        return
     }
 
     return (
@@ -34,9 +39,10 @@ function AddCategoryDialog({ open, onClose }) {
             <form onSubmit={ handleSubmit(onSubmit) }>
                 <DialogContent className={ 'd-flex flex-column gap-2' }>
                     <TextField
+                        defaultValue={ category.title }
                         fullWidth={ true }
                         label={ 'Nomi' }
-                        { ...register('title', { required: true }) }/>
+                        { ...register('title') }/>
                     <Button
                         component={ 'label' }
                         variant={ 'contained' }
@@ -45,7 +51,7 @@ function AddCategoryDialog({ open, onClose }) {
                         <VisuallyHiddenInput
                             type={ 'file' }
                             accept={ 'image/png' }
-                            { ...register('file', { required: true, onChange: handleUploadFile }) }/>
+                            { ...register('file', { onChange: handleUploadFile }) }/>
                     </Button>
                 </DialogContent>
                 <DialogActions>
@@ -56,7 +62,7 @@ function AddCategoryDialog({ open, onClose }) {
                         Yopish
                     </Button>
                     <Button
-                        loading={ createCategory.isPending }
+                        loading={ updateCategory.isPending }
                         type={ 'submit' }
                         variant={ 'contained' }>
                         Saqlash
@@ -67,4 +73,4 @@ function AddCategoryDialog({ open, onClose }) {
     )
 }
 
-export default AddCategoryDialog
+export default EditCategoryDialog
