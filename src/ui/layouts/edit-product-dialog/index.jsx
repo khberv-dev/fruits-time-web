@@ -51,7 +51,7 @@ function EditProductDialog({ open, onClose, product }) {
     return (
         <Dialog fullWidth={ true } open={ open } onClose={ onClose }>
             <DialogTitle>
-                Mahsulot qo'shish
+                { product.title }
             </DialogTitle>
             <form onSubmit={ handleSubmit(onSubmit) }>
                 <DialogContent className={ 'd-flex flex-column gap-3' }>

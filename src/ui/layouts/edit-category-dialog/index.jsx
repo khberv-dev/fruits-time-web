@@ -34,7 +34,7 @@ function EditCategoryDialog({ open, onClose, category }) {
     return (
         <Dialog fullWidth={ true } open={ open } onClose={ onClose }>
             <DialogTitle>
-                Katalog qo'shish
+                Katalog: { category.title }
             </DialogTitle>
             <form onSubmit={ handleSubmit(onSubmit) }>
                 <DialogContent className={ 'd-flex flex-column gap-2' }>
