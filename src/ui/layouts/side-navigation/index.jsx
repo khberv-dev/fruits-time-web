@@ -1,7 +1,7 @@
 import st from './main.module.scss'
 import { Divider, ListItemIcon, ListItemText, MenuItem, MenuList } from "@mui/material";
 import imgBannerLogo from '@/assets/banner_logo.png'
-import { Apps, Home, LocalMall, Settings } from "@mui/icons-material";
+import { Apps, Campaign, Home, LocalMall, Settings } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function SideNavigation({ children }) {
@@ -23,6 +23,11 @@ function SideNavigation({ children }) {
             icon: <LocalMall/>,
             title: 'Mahsulotlar',
             path: '/products'
+        },
+        {
+            icon: <Campaign/>,
+            title: 'Marketing',
+            path: '/marketing'
         },
         {
             icon: <Settings/>,
