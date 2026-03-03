@@ -42,7 +42,7 @@ function AddCategoryDialog({ open, onClose }) {
                         { fileName || 'Rasm yuklash' }
                         <VisuallyHiddenInput
                             type={ 'file' }
-                            accept={ 'image/png' }
+                            accept={ 'image/*' }
                             { ...register('file', { required: true, onChange: handleUploadFile }) }/>
                     </Button>
                 </DialogContent>

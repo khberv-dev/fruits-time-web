@@ -18,6 +18,7 @@ import { useUpdateProduct } from "@/services/product/query.js";
 import { useGetCategories } from "@/services/category/query.js";
 import NumberField from "@/ui/components/number-field/index.jsx";
 import { objectToFormData } from "@/utils/lib.js";
+import ControlledList from "@/ui/components/controlled-list/index.jsx";
 
 function EditProductDialog({ open, onClose, product }) {
     const { handleSubmit, register, reset, control } = useForm()
@@ -34,7 +35,7 @@ function EditProductDialog({ open, onClose, product }) {
 
         updateProduct.mutateAsync({
             id: product.id,
-            data: formData
+            data: formData,
         }).then(() => {
             onClose()
         })
@@ -97,6 +98,23 @@ function EditProductDialog({ open, onClose, product }) {
                             />
                         }
                     />
+                    <span>Tarkibi:</span>
+                    <Controller
+                        name={ 'compound' }
+                        control={ control }
+                        defaultValue={ product.compound }
+                        render={ ({ field }) =>
+                            <ControlledList { ...field }/>
+                        }/>
+                    <Controller
+                        name={ 'description' }
+                        control={ control }
+                        defaultValue={ product.description }
+                        render={ ({ field }) =>
+                            <TextField
+                                label={ 'Tavsif' }
+                                { ...field }/>
+                        }/>
                     <Button
                         component={ 'label' }
                         variant={ 'contained' }

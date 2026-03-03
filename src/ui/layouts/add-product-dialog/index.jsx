@@ -18,6 +18,7 @@ import { useCreateProduct } from "@/services/product/query.js";
 import { useGetCategories } from "@/services/category/query.js";
 import NumberField from "@/ui/components/number-field/index.jsx";
 import { objectToFormData } from "@/utils/lib.js";
+import ControlledList from "@/ui/components/controlled-list/index.jsx";
 
 function AddProductDialog({ open, onClose }) {
     const { handleSubmit, register, reset, control } = useForm()
@@ -84,6 +85,21 @@ function AddProductDialog({ open, onClose }) {
                             />
                         }
                     />
+                    <span>Tarkibi:</span>
+                    <Controller
+                        name={ 'compound' }
+                        control={ control }
+                        render={ ({ field }) =>
+                            <ControlledList { ...field }/>
+                        }/>
+                    <Controller
+                        name={ 'description' }
+                        control={ control }
+                        render={ ({ field }) =>
+                            <TextField
+                                label={ 'Tavsif' }
+                                { ...field }/>
+                        }/>
                     <Button
                         component={ 'label' }
                         variant={ 'contained' }
@@ -91,7 +107,7 @@ function AddProductDialog({ open, onClose }) {
                         { fileName || 'Rasm yuklash' }
                         <VisuallyHiddenInput
                             type={ 'file' }
-                            accept={ 'image/png' }
+                            accept={ 'image/*' }
                             { ...register('file', { required: true, onChange: handleUploadFile }) }/>
                     </Button>
                 </DialogContent>
