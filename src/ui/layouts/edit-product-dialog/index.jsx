@@ -113,6 +113,7 @@ function EditProductDialog({ open, onClose, product }) {
                         render={ ({ field }) =>
                             <TextField
                                 label={ 'Tavsif' }
+                                multiline={ true }
                                 { ...field }/>
                         }/>
                     <Button
