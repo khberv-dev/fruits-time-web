@@ -69,7 +69,7 @@ function SingleCatalogPage() {
                     </Button>
                 </div>
                 <Space height={ 4 }/>
-                <Flex gap={ '2' }>
+                <Flex gap={ '4' }>
                     <Card style={ { flex: 1 } }>
                         <Controller
                             control={ control }
