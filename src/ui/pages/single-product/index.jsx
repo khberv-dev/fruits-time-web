@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useCreateProduct, useGetProductById, useUpdateProduct } from "@/services/product/query.js"
+import { useGetCatalogs } from "@/services/catalog/query.js"
 import { Button, Card, Flex, Spinner } from "@radix-ui/themes"
 import { ArrowLeftIcon, CheckIcon } from "@radix-ui/react-icons"
 import Space from "@/ui/components/space/index.jsx"
@@ -10,27 +11,40 @@ import { Controller, useForm } from "react-hook-form"
 import ImageUpload from "@/ui/components/image-upload/index.jsx"
 import { objToFormData } from "@/utils/lib.js"
 import CompoundEditor from "@/ui/components/compound-editor/index.jsx"
+import InputSelect from "@/ui/components/input-select/index.jsx"
+
+const PRODUCT_TYPE_OPTIONS = [
+    { value: 'FRUIT', label: 'FRUIT' },
+    { value: 'VITAMIN', label: 'VITAMIN' }
+]
 
 function SingleProductPage() {
     const { id } = useParams()
     const isNew = id === 'new'
     const { data: product, isLoading } = useGetProductById(id)
+    const { data: catalogs = [] } = useGetCatalogs()
     const updateProduct = useUpdateProduct(id)
     const createProduct = useCreateProduct()
     const navigate = useNavigate()
     const { control, handleSubmit, reset } = useForm({
         defaultValues: {
             title: '',
+            categoryId: '',
+            productType: '',
             price: '',
             description: '',
             compound: []
         }
     })
 
+    const categoryOptions = catalogs.map((c) => ({ value: c.id, label: c.title ?? '' }))
+
     useEffect(() => {
         if (!isNew && product) {
             reset({
                 title: product.title ?? '',
+                categoryId: product.category?.id ?? product.categoryId ?? '',
+                productType: product.productType ?? product.type ?? '',
                 price: product.price ?? '',
                 description: product.description ?? '',
                 compound: Array.isArray(product.compound) ? product.compound : []
@@ -39,6 +53,8 @@ function SingleProductPage() {
         if (isNew) {
             reset({
                 title: '',
+                categoryId: '',
+                productType: '',
                 price: '',
                 description: '',
                 compound: []
@@ -100,6 +116,28 @@ function SingleProductPage() {
                                 <InputText
                                     { ...field }
                                     label={ 'Nomi' }/>
+                            }/>
+                        <Space height={ 3 }/>
+                        <Controller
+                            control={ control }
+                            name={ 'categoryId' }
+                            render={ ({ field }) =>
+                                <InputSelect
+                                    { ...field }
+                                    label={ 'Katalog' }
+                                    placeholder={ 'Katalogni tanlang' }
+                                    options={ categoryOptions }/>
+                            }/>
+                        <Space height={ 3 }/>
+                        <Controller
+                            control={ control }
+                            name={ 'productType' }
+                            render={ ({ field }) =>
+                                <InputSelect
+                                    { ...field }
+                                    label={ 'Mahsulot turi' }
+                                    placeholder={ 'Turini tanlang' }
+                                    options={ PRODUCT_TYPE_OPTIONS }/>
                             }/>
                         <Space height={ 3 }/>
                         <Controller
