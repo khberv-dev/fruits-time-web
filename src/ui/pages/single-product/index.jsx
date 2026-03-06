@@ -12,6 +12,7 @@ import ImageUpload from "@/ui/components/image-upload/index.jsx"
 import { objToFormData } from "@/utils/lib.js"
 import CompoundEditor from "@/ui/components/compound-editor/index.jsx"
 import InputSelect from "@/ui/components/input-select/index.jsx"
+import InputPrice from "@/ui/components/input-price/index.jsx"
 
 const PRODUCT_TYPE_OPTIONS = [
     { value: 'FRUIT', label: 'FRUIT' },
@@ -30,7 +31,7 @@ function SingleProductPage() {
         defaultValues: {
             title: '',
             categoryId: '',
-            productType: '',
+            type: '',
             price: '',
             description: '',
             compound: []
@@ -44,7 +45,7 @@ function SingleProductPage() {
             reset({
                 title: product.title ?? '',
                 categoryId: product.category?.id ?? product.categoryId ?? '',
-                productType: product.productType ?? product.type ?? '',
+                type: product.type ?? '',
                 price: product.price ?? '',
                 description: product.description ?? '',
                 compound: Array.isArray(product.compound) ? product.compound : []
@@ -54,7 +55,7 @@ function SingleProductPage() {
             reset({
                 title: '',
                 categoryId: '',
-                productType: '',
+                type: '',
                 price: '',
                 description: '',
                 compound: []
@@ -131,7 +132,7 @@ function SingleProductPage() {
                         <Space height={ 3 }/>
                         <Controller
                             control={ control }
-                            name={ 'productType' }
+                            name={ 'type' }
                             render={ ({ field }) =>
                                 <InputSelect
                                     { ...field }
@@ -144,9 +145,10 @@ function SingleProductPage() {
                             control={ control }
                             name={ 'price' }
                             render={ ({ field }) =>
-                                <InputText
+                                <InputPrice
                                     { ...field }
-                                    label={ 'Narxi' }/>
+                                    label={ 'Narxi' }
+                                    placeholder={ '0' }/>
                             }/>
                         <Space height={ 3 }/>
                         <Controller
