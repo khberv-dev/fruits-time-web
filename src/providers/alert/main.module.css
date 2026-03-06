@@ -1,0 +1,32 @@
+@keyframes alert-appearing {
+    from {
+        transform: translateX(-50%) translateY(-50px);
+    }
+
+    to {
+        transform: translateX(-50%) translateY(10px);
+    }
+}
+
+@keyframes alert-disappearing {
+    from {
+        transform: translateX(-50%) translateY(10px);
+    }
+
+    to {
+        transform: translateX(-50%) translateY(-50px);
+    }
+}
+
+.alert {
+    position: fixed;
+    min-width: 300px;
+    width: fit-content;
+    height: 50px;
+    margin-left: 50%;
+    animation: alert-appearing .2s forwards;
+}
+
+.disappear {
+    animation: alert-disappearing .2s forwards;
+}

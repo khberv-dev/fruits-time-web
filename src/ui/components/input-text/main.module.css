@@ -1,0 +1,8 @@
+.inputSlot svg {
+    width: 16px;
+    height: 16px;
+}
+
+.inputSlot svg * {
+    stroke: var(--gray-11);
+}

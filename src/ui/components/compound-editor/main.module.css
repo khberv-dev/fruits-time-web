@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.input {
+    flex: 1;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background-color: #f3f4f6;
+}
+
+.removeButton {
+    border: none;
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+

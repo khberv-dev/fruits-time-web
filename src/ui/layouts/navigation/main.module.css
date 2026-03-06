@@ -1,0 +1,181 @@
+/* ---- Layout ---- */
+.layout {
+    display: flex;
+    min-height: 100vh;
+    background: var(--gray-2);
+}
+
+/* ---- Sidebar ---- */
+.sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border-right: 1px solid var(--gray-6);
+    box-shadow: 1px 0 0 var(--gray-4);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 20px 24px;
+    border-bottom: 1px solid var(--gray-5);
+}
+
+.brandIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.brandIcon svg {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.brandIcon path {
+    fill: var(--indigo-11);
+}
+
+.brandName {
+    letter-spacing: -0.02em;
+}
+
+/* ---- Nav ---- */
+.nav {
+    flex: 1;
+    padding: 16px 12px;
+    overflow-y: auto;
+}
+
+.navList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.navItem {
+    margin: 0;
+}
+
+.navLink,
+.navLinkActive {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--radius-3);
+    text-decoration: none;
+    color: var(--gray-11);
+    transition: background-color 0.15s ease, color 0.15s ease;
+    outline: none;
+}
+
+.navLink:hover,
+.navLink:focus-visible {
+    background: var(--gray-4);
+    color: var(--gray-12);
+}
+
+.navLinkActive {
+    background: var(--indigo-4);
+    color: var(--indigo-11);
+    font-weight: 500;
+}
+
+.navLinkActive:hover,
+.navLinkActive:focus-visible {
+    background: var(--indigo-5);
+    color: var(--indigo-12);
+}
+
+.navIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.navIcon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.navLabel {
+    white-space: nowrap;
+}
+
+/* ---- Sidebar footer (logout) ---- */
+.sidebarFooter {
+    padding: 12px;
+    border-top: 1px solid var(--gray-5);
+}
+
+.logoutBtn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    border: none;
+    border-radius: var(--radius-3);
+    background: transparent;
+    color: var(--gray-11);
+    cursor: pointer;
+    font: inherit;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    outline: none;
+}
+
+.logoutBtn:hover,
+.logoutBtn:focus-visible {
+    background: var(--gray-4);
+    color: var(--gray-12);
+}
+
+.logoutIcon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+/* ---- Main content ---- */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.pageHeader {
+    flex-shrink: 0;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--gray-6);
+    box-shadow: 0 1px 0 var(--gray-4);
+}
+
+.pageTitle {
+    color: var(--gray-12);
+    letter-spacing: -0.01em;
+}
+
+.pageBody {
+    flex: 1;
+    padding: 24px;
+    overflow: auto;
+}
