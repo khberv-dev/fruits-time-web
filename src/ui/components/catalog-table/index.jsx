@@ -37,7 +37,9 @@ function CatalogTable({ data, isLoading }) {
                                     { item.title }
                                 </Text>
                             </Table.Cell>
-                            <Table.Cell>{ item.productsCount }</Table.Cell>
+                            <Table.Cell>
+                                <Text size="3">{ item.productsCount ?? 0 }</Text>
+                            </Table.Cell>
                             <Table.Cell>
                                 <Switch checked={ item.isActive }/>
                             </Table.Cell>
