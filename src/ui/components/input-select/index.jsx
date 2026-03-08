@@ -1,4 +1,4 @@
-import { Text, Select } from "@radix-ui/themes"
+import { Select, Text } from "@radix-ui/themes"
 
 const EMPTY_VALUE = '__none__'
 
@@ -21,7 +21,7 @@ function InputSelect({ label, value, onChange, options, placeholder = 'Tanlangâ€
                         <Select.Item key={ opt.value } value={ String(opt.value) }>
                             { opt.label }
                         </Select.Item>
-                    ) ) }
+                    )) }
                 </Select.Content>
             </Select.Root>
         </div>

@@ -1,5 +1,5 @@
 import st from './main.module.css'
-import { Text, TextField } from "@radix-ui/themes";
+import { Text, TextField } from "@radix-ui/themes"
 
 function InputText({ label, value, type, icon, tailIcon, placeholder, onChange, ...props }) {
     return (

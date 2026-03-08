@@ -2,9 +2,9 @@ import { useQuery } from "@tanstack/react-query"
 import { createProduct, getProductById, getProducts, updateProduct } from "@/services/product/api.js"
 import { useInfoMutation } from "@/services/query.js"
 
-export const useGetProducts = () => useQuery({
-    queryFn: getProducts,
-    queryKey: ['products']
+export const useGetProducts = (categoryId) => useQuery({
+    queryFn: () => getProducts(categoryId ? { category: categoryId } : undefined),
+    queryKey: ['products', categoryId || null]
 })
 
 export const useGetProductById = (id) => useQuery({

@@ -1,7 +1,7 @@
 import { apiClient } from "@/services/api.js"
 
-export async function getProducts() {
-    const res = await apiClient.get('product')
+export async function getProducts(params) {
+    const res = await apiClient.get('product', { params })
     return res.data
 }
 

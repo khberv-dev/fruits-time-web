@@ -15,7 +15,7 @@ function App() {
                 <Route path={ '/login' } element={ <LoginPage/> }/>
 
                 <Route path={ '/' } element={ <AppRoute/> }>
-                    <Route index element={ <Navigate to="/catalog" replace /> }/>
+                    <Route index element={ <Navigate to="/catalog" replace/> }/>
                     <Route path={ '/catalog' } element={ <CatalogPage/> }/>
                     <Route path={ '/catalog/:id' } element={ <SingleCatalogPage/> }/>
                     <Route path={ '/product' } element={ <ProductPage/> }/>
