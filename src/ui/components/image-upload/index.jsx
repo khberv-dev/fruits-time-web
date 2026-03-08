@@ -3,7 +3,7 @@ import { Text } from "@radix-ui/themes"
 import { UploadIcon } from "@radix-ui/react-icons"
 import { useRef, useState } from "react"
 
-function ImageUpload({ src, value, onChange }) {
+function ImageUpload({ src, value, onChange, variant }) {
     const fileInput = useRef(null)
     const [image, setImage] = useState(null)
 
@@ -14,9 +14,11 @@ function ImageUpload({ src, value, onChange }) {
         onChange(file)
     }
 
+    const containerClass = variant === 'banner' ? `${ st.container } ${ st.containerBanner }` : st.container
+
     return (
         <div
-            className={ st.container }
+            className={ containerClass }
             onClick={ () => fileInput.current.click() }>
             <div className={ st.overlay }>
                 <UploadIcon/>

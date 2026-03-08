@@ -1,6 +1,6 @@
 import { Button, Card, Spinner, Switch, Table, Text } from "@radix-ui/themes"
 import Space from "@/ui/components/space/index.jsx"
-import ProductImage from "@/ui/components/product-image/index.jsx"
+import BannerImage from "@/ui/components/banner-image/index.jsx"
 import { Pencil1Icon } from "@radix-ui/react-icons"
 import { useNavigate } from "react-router-dom"
 import { formatDateTime } from "@/utils/formatter.js"
@@ -26,7 +26,7 @@ function BannerTable({ data, isLoading }) {
                         <Table.Row key={ index }>
                             <Table.RowHeaderCell>{ index + 1 }</Table.RowHeaderCell>
                             <Table.Cell>
-                                <ProductImage
+                                <BannerImage
                                     src={ (item.image && item.image.startsWith('http'))
                                         ? item.image
                                         : `${ import.meta.env.VITE_CDN_URL }banner/${ item.image }` }

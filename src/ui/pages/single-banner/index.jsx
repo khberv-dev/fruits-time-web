@@ -6,7 +6,7 @@ import { ArrowLeftIcon, CheckIcon } from "@radix-ui/react-icons"
 import Space from "@/ui/components/space/index.jsx"
 import ImageUpload from "@/ui/components/image-upload/index.jsx"
 import { Controller, useForm } from "react-hook-form"
-import ProductImage from "@/ui/components/product-image/index.jsx"
+import BannerImage from "@/ui/components/banner-image/index.jsx"
 
 function SingleBannerPage() {
     const { id } = useParams()
@@ -120,10 +120,11 @@ function SingleBannerPage() {
                                     <ImageUpload
                                         { ...field }
                                         src={ null }
+                                        variant="banner"
                                     />
                                 }/>
                         ) : (
-                            <ProductImage
+                            <BannerImage
                                 src={ bannerSrc }
                                 alt={ 'banner' }/>
                         ) }
