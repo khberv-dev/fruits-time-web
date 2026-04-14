@@ -2,10 +2,22 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    max-width: 560px;
 }
 
 .form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.column {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -55,5 +67,4 @@
     display: flex;
     justify-content: flex-end;
     gap: 8px;
-    margin-top: 8px;
 }

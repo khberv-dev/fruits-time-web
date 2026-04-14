@@ -49,63 +49,69 @@ export default function ProductCreatePage() {
     return (
         <div className={s.root}>
             <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-                <ImageUpload
-                    value={file}
-                    onUpdate={(f) => setValue('file', f)}
-                    disabled={isPending}
-                />
+                <div className={s.columns}>
+                    <div className={s.column}>
+                        <div className={s.field}>
+                            <Text variant="body-2">Nomi</Text>
+                            <TextInput
+                                value={title}
+                                onUpdate={(v) => setValue('title', v, {shouldDirty: true})}
+                                placeholder="Mahsulot nomi"
+                                disabled={isPending}
+                                size="l"
+                            />
+                        </div>
 
-                <div className={s.field}>
-                    <Text variant="body-2">Nomi</Text>
-                    <TextInput
-                        value={title}
-                        onUpdate={(v) => setValue('title', v, {shouldDirty: true})}
-                        placeholder="Mahsulot nomi"
-                        disabled={isPending}
-                        size="l"
-                    />
-                </div>
+                        <div className={s.field}>
+                            <Text variant="body-2">Tavsif</Text>
+                            <textarea
+                                className={s.textarea}
+                                value={description}
+                                onChange={(e) => setValue('description', e.target.value)}
+                                placeholder="Mahsulot tavsifi"
+                                rows={6}
+                                disabled={isPending}
+                            />
+                        </div>
+                    </div>
 
-                <div className={s.field}>
-                    <Text variant="body-2">Tavsif</Text>
-                    <textarea
-                        className={s.textarea}
-                        value={description}
-                        onChange={(e) => setValue('description', e.target.value)}
-                        placeholder="Mahsulot tavsifi"
-                        rows={4}
-                        disabled={isPending}
-                    />
-                </div>
+                    <div className={s.column}>
+                        <ImageUpload
+                            value={file}
+                            onUpdate={(f) => setValue('file', f)}
+                            disabled={isPending}
+                        />
 
-                <div className={s.field}>
-                    <Text variant="body-2">Tarkib</Text>
-                    <div className={s.compoundList}>
-                        {compound.map((item, i) => (
-                            <div key={i} className={s.compoundRow}>
-                                <TextInput
-                                    value={item}
-                                    onUpdate={(v) => updateCompound(i, v)}
-                                    placeholder={`Tarkib ${i + 1}`}
-                                    disabled={isPending}
-                                    size="m"
-                                />
-                                {compound.length > 1 && (
-                                    <Button
-                                        view="flat-danger"
-                                        size="m"
-                                        onClick={() => removeCompound(i)}
-                                        disabled={isPending}
-                                    >
-                                        <Button.Icon><Xmark/></Button.Icon>
-                                    </Button>
-                                )}
+                        <div className={s.field}>
+                            <Text variant="body-2">Tarkib</Text>
+                            <div className={s.compoundList}>
+                                {compound.map((item, i) => (
+                                    <div key={i} className={s.compoundRow}>
+                                        <TextInput
+                                            value={item}
+                                            onUpdate={(v) => updateCompound(i, v)}
+                                            placeholder={`Tarkib ${i + 1}`}
+                                            disabled={isPending}
+                                            size="m"
+                                        />
+                                        {compound.length > 1 && (
+                                            <Button
+                                                view="flat-danger"
+                                                size="m"
+                                                onClick={() => removeCompound(i)}
+                                                disabled={isPending}
+                                            >
+                                                <Button.Icon><Xmark/></Button.Icon>
+                                            </Button>
+                                        )}
+                                    </div>
+                                ))}
+                                <Button view="outlined" size="m" onClick={addCompound} disabled={isPending}>
+                                    <Button.Icon><Plus/></Button.Icon>
+                                    Tarkib qo'shish
+                                </Button>
                             </div>
-                        ))}
-                        <Button view="outlined" size="m" onClick={addCompound} disabled={isPending}>
-                            <Button.Icon><Plus/></Button.Icon>
-                            Tarkib qo'shish
-                        </Button>
+                        </div>
                     </div>
                 </div>
 
