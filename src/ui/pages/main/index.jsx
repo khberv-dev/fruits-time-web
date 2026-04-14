@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {Card, Select, Text} from "@gravity-ui/uikit";
-import {Person, LayoutCells, ShoppingCart} from "@gravity-ui/icons";
+import {Person, LayoutCells, ShoppingCart, Receipt} from "@gravity-ui/icons";
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from "recharts";
 import dayjs from "dayjs";
 import {useGetStats, useGetUsersTrend, useGetOrdersTrend} from "@/services/stats/query.js";
@@ -8,9 +8,10 @@ import {useHeader} from "@/providers/header.jsx";
 import s from "./main.module.css";
 
 const SUMMARY_CARDS = [
-    {key: 'userCount', label: 'Foydalanuvchilar', icon: Person},
-    {key: 'catalogCount', label: 'Kataloglar', icon: LayoutCells},
-    {key: 'productCount', label: 'Mahsulotlar', icon: ShoppingCart},
+    {key: 'usersCount', label: 'Foydalanuvchilar', icon: Person},
+    {key: 'catalogsCount', label: 'Kataloglar', icon: LayoutCells},
+    {key: 'productsCount', label: 'Mahsulotlar', icon: ShoppingCart},
+    {key: 'ordersCount', label: 'Buyurtmalar', icon: Receipt},
 ]
 
 const PERIOD_OPTIONS = [

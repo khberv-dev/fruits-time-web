@@ -19,7 +19,7 @@ export default function CatalogCard({catalog, onClick, onEdit, onDelete}) {
             />
             <div className={s.body}>
                 <Text variant="subheader-2" ellipsis>{catalog.title}</Text>
-                <Text variant="body-1" color="secondary">{catalog.productCount} ta mahsulot</Text>
+                <Text variant="body-1" color="secondary">{catalog.productsCount} ta mahsulot</Text>
                 <Text variant="caption-2" color="hint">
                     {dayjs(catalog.createdAt).format('DD-MM-YYYY')}
                 </Text>
