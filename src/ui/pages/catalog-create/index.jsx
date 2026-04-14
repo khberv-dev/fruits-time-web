@@ -29,7 +29,7 @@ export default function CatalogCreatePage() {
 
     const onSubmit = () => {
         const fd = new FormData()
-        fd.append('title', title)
+        fd.append('title', title.trim())
         if (file) fd.append('file', file)
 
         createCatalog(

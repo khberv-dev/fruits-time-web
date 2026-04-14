@@ -35,9 +35,9 @@ export default function ProductCreatePage() {
 
     const onSubmit = () => {
         const fd = new FormData()
-        fd.append('title', title)
-        fd.append('description', description)
-        compound.forEach((c, i) => fd.append(`compound[${i}]`, c))
+        fd.append('title', title.trim())
+        fd.append('description', description.trim())
+        compound.filter((c) => c.trim()).forEach((c, i) => fd.append(`compound[${i}]`, c.trim()))
         if (file) fd.append('file', file)
 
         createProduct(
