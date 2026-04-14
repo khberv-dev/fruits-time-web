@@ -1,0 +1,51 @@
+.root {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    border-radius: var(--g-border-radius-l);
+    border: 2px dashed var(--g-color-line-generic);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+.root:hover {
+    border-color: var(--g-color-line-brand);
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.badge {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    backdrop-filter: blur(4px);
+}
+
+.input {
+    display: none;
+}

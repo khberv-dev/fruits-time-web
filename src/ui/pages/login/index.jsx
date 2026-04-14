@@ -20,31 +20,31 @@ export default function LoginPage() {
     const isValid = /^998\d{9}$/.test(phoneNumber) && password.length >= 8
     const errorMessage = error?.response?.data?.message ?? error?.message
 
-    return (
+return (
         <div className={s.root}>
             <Card className={s.card}>
                 <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-                    <Text className={s.title} variant="header-2">Sign in</Text>
+                    <Text className={s.title} variant="header-2">Kirish</Text>
 
                     <div className={s.fields}>
                         <div className={s.field}>
-                            <Text variant="body-2">Phone number</Text>
+                            <Text variant="body-2">Telefon raqam</Text>
                             <TextInput
                                 placeholder="998 00 000 00 00"
                                 value={formatPhoneNumber(phoneNumber)}
-                                onUpdate={(v) => setValue('phoneNumber', extractDigits(v))}
+                                onUpdate={(v) => setValue('phoneNumber', extractDigits(v).slice(0, 12), {shouldDirty: true})}
                                 disabled={isPending}
                                 size="l"
                             />
                         </div>
 
                         <div className={s.field}>
-                            <Text variant="body-2">Password</Text>
+                            <Text variant="body-2">Parol</Text>
                             <TextInput
                                 type="password"
                                 placeholder="••••••••"
                                 value={password}
-                                onUpdate={(v) => setValue('password', v)}
+                                onUpdate={(v) => setValue('password', v, {shouldDirty: true})}
                                 disabled={isPending}
                                 size="l"
                             />
@@ -63,7 +63,7 @@ export default function LoginPage() {
                         disabled={!isValid}
                         width="max"
                     >
-                        Sign in
+                        Kirish
                     </Button>
                 </form>
             </Card>

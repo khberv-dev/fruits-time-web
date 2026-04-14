@@ -1,0 +1,59 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 560px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: var(--g-border-radius-m);
+    border: 1px solid var(--g-color-line-generic);
+    background: var(--g-color-base-generic-ultralight);
+    color: var(--g-color-text-primary);
+    font-size: var(--g-text-body-1-font-size);
+    font-family: inherit;
+    resize: vertical;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.textarea:focus {
+    border-color: var(--g-color-line-brand);
+}
+
+.compoundList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.compoundRow {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.compoundRow > :first-child {
+    flex: 1;
+}
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 8px;
+}

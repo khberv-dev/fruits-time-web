@@ -1,10 +1,13 @@
-import {Text} from "@gravity-ui/uikit";
+import {useEffect} from "react";
+import {useHeader} from "@/providers/header.jsx";
 import s from "./main.module.css";
 
 export default function BannerPage() {
-    return (
-        <div className={s.root}>
-            <Text variant="header-2">Banners</Text>
-        </div>
-    )
+    const {setHeader} = useHeader()
+
+    useEffect(() => {
+        setHeader({title: 'Bannerlar'})
+    }, [])
+
+    return <div className={s.root}/>
 }

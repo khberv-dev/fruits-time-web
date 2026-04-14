@@ -2,8 +2,30 @@
     height: 100vh;
 }
 
-.content {
+.wrapper {
+    display: flex;
+    flex-direction: column;
     height: 100%;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 24px;
+    border-bottom: 1px solid var(--g-color-line-generic);
+    flex-shrink: 0;
+    min-height: 52px;
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.content {
+    flex: 1;
     padding: 24px;
     overflow-y: auto;
 }
