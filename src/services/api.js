@@ -17,7 +17,34 @@ api.interceptors.request.use(
 
         return config
     },
-    (error) => {
-        return Promise.reject(error)
+    (error) => Promise.reject(error)
+)
+
+api.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const original = error.config
+
+        if (error.response?.status !== 401 || original.url === refreshTokensPath) {
+            return Promise.reject(error)
+        }
+
+        try {
+            const refreshToken = localStorage.getItem('refresh_token')
+            const {data} = await api.post(refreshTokensPath, {}, {
+                headers: {Authorization: `Bearer ${refreshToken}`}
+            })
+
+            localStorage.setItem('access_token', data.accessToken)
+            localStorage.setItem('refresh_token', data.refreshToken)
+
+            original.headers['Authorization'] = `Bearer ${data.accessToken}`
+            return api(original)
+        } catch (err) {
+            localStorage.removeItem('access_token')
+            localStorage.removeItem('refresh_token')
+            window.location.href = '/login'
+            return Promise.reject(err)
+        }
     }
 )

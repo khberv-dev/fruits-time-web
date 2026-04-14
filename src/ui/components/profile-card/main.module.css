@@ -1,0 +1,11 @@
+.root {
+    padding: 12px 16px;
+    border-top: 1px solid var(--g-color-line-generic);
+}
+
+.compact {
+    display: flex;
+    justify-content: center;
+    padding: 12px 0;
+    border-top: 1px solid var(--g-color-line-generic);
+}

@@ -2,6 +2,10 @@ export function formatNumber(input) {
     return input.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
+export function extractDigits(input) {
+    return String(input).replace(/\D/g, '')
+}
+
 export function formatPhoneNumber(input) {
     const digits = String(input).replace(/\D/g, '').slice(0, 12)
 

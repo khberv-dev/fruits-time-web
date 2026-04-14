@@ -5,11 +5,14 @@ import {createRoot} from 'react-dom/client'
 import App from './App.jsx'
 import {QueryClientProvider} from "@tanstack/react-query";
 import {queryClient} from "@/services/query.js";
+import {ThemeProvider} from "@gravity-ui/uikit";
 
 const root = createRoot(document.getElementById('root'))
 
 root.render(
-    <QueryClientProvider client={queryClient}>
-        <App/>
-    </QueryClientProvider>
+    <ThemeProvider theme={'system'}>
+        <QueryClientProvider client={queryClient}>
+            <App/>
+        </QueryClientProvider>
+    </ThemeProvider>
 )
