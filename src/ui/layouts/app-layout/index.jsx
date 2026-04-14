@@ -46,7 +46,7 @@ export default function AppLayout() {
                             )}
                             {title && <Text variant="subheader-3">{title}</Text>}
                         </div>
-                        <LocaleSwitch/>
+                        {pathname.startsWith('/catalog') && <LocaleSwitch/>}
                     </header>
                     <div className={s.content}>
                         <Outlet/>
