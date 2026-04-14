@@ -30,16 +30,3 @@
     flex-direction: column;
     gap: 16px;
 }
-
-.chart {
-    padding: 20px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.chartHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
