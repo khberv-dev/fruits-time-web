@@ -10,13 +10,13 @@ export async function getCatalog(catalogId, locale) {
     return res.data.find((c) => String(c.id) === String(catalogId)) ?? null
 }
 
-export async function createCatalog(data, resource_locale) {
-    const res = await api.post('catalog', data, {params: {resource_locale}})
+export async function createCatalog(data, locale) {
+    const res = await api.post('catalog', data, {params: {locale}})
     return res.data
 }
 
-export async function updateCatalog(catalogId, data, resource_locale) {
-    const res = await api.put(`catalog/${catalogId}`, data, {params: {resource_locale}})
+export async function updateCatalog(catalogId, data, locale) {
+    const res = await api.put(`catalog/${catalogId}`, data, {params: {locale}})
     return res.data
 }
 

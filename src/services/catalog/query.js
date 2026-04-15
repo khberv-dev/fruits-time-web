@@ -14,7 +14,7 @@ export const useGetAllCatalogs = () => {
 
 export const useCreateCatalog = () => useInfoMutation({
     queryKey: ['catalog'],
-    mutationFn: ({data, resource_locale}) => createCatalog(data, resource_locale),
+    mutationFn: ({data, locale}) => createCatalog(data, locale),
 })
 
 export const useGetCatalog = (catalogId, locale) => useQuery({
@@ -25,7 +25,7 @@ export const useGetCatalog = (catalogId, locale) => useQuery({
 
 export const useUpdateCatalog = () => useInfoMutation({
     queryKey: ['catalog'],
-    mutationFn: ({catalogId, data, resource_locale}) => updateCatalog(catalogId, data, resource_locale),
+    mutationFn: ({catalogId, data, locale}) => updateCatalog(catalogId, data, locale),
 })
 
 export const useDeleteCatalog = () => useInfoMutation({

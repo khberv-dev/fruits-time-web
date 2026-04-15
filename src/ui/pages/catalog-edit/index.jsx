@@ -47,7 +47,7 @@ export default function CatalogEditPage() {
         if (file) fd.append('file', file)
 
         updateCatalog(
-            {catalogId, data: fd, resource_locale: resourceLocale},
+            {catalogId, data: fd, locale: resourceLocale},
             {onSuccess: () => navigate('/catalog')}
         )
     }

@@ -10,13 +10,13 @@ export async function getProduct(catalogId, productId, locale) {
     return res.data.find((p) => String(p.id) === String(productId)) ?? null
 }
 
-export async function createProduct(catalogId, data, resource_locale) {
-    const res = await api.post(`${catalogId}/product`, data, {params: {resource_locale}})
+export async function createProduct(catalogId, data, locale) {
+    const res = await api.post(`${catalogId}/product`, data, {params: {locale}})
     return res.data
 }
 
-export async function updateProduct(catalogId, productId, data, resource_locale) {
-    const res = await api.put(`${catalogId}/product/${productId}`, data, {params: {resource_locale}})
+export async function updateProduct(catalogId, productId, data, locale) {
+    const res = await api.put(`${catalogId}/product/${productId}`, data, {params: {locale}})
     return res.data
 }
 

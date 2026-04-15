@@ -33,7 +33,7 @@ export default function CatalogCreatePage() {
         if (file) fd.append('file', file)
 
         createCatalog(
-            {data: fd, resource_locale: resourceLocale},
+            {data: fd, locale: resourceLocale},
             {onSuccess: () => navigate('/catalog')}
         )
     }

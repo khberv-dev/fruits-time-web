@@ -8,6 +8,7 @@ import ConfirmDialog from "@/ui/components/confirm-dialog/index.jsx";
 import {useHeader} from "@/providers/header.jsx";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
 import {baseCdnUrl} from "@/services/config.js";
+import {formatNumber, extractDigits} from "@/utils/lib.js";
 import ImageUpload from "@/ui/components/image-upload/index.jsx";
 import s from "./main.module.css";
 
@@ -28,11 +29,12 @@ export default function ProductEditPage() {
             title: state?.product?.title ?? '',
             description: state?.product?.description ?? '',
             compound: state?.product?.compound ?? [''],
+            price: state?.product?.price ?? '',
             file: null,
         }
     })
 
-    const [title, description, compound, file] = watch(['title', 'description', 'compound', 'file'])
+    const [title, description, compound, price, file] = watch(['title', 'description', 'compound', 'price', 'file'])
 
     useEffect(() => {
         setHeader({
@@ -46,6 +48,7 @@ export default function ProductEditPage() {
         setValue('title', productData.title ?? '', {shouldDirty: true})
         setValue('description', productData.description ?? '', {shouldDirty: true})
         setValue('compound', productData.compound?.length ? productData.compound : [''], {shouldDirty: true})
+        setValue('price', productData.price ?? '', {shouldDirty: true})
         setValue('file', null, {shouldDirty: true})
     }, [productData])
 
@@ -57,11 +60,12 @@ export default function ProductEditPage() {
         const fd = new FormData()
         fd.append('title', title.trim())
         fd.append('description', description.trim())
+        fd.append('price', Number(extractDigits(String(price))))
         compound.filter((c) => c.trim()).forEach((c, i) => fd.append(`compound[${i}]`, c.trim()))
         if (file) fd.append('file', file)
 
         updateProduct(
-            {catalogId, productId, data: fd, resource_locale: resourceLocale},
+            {catalogId, productId, data: fd, locale: resourceLocale},
             {onSuccess: () => navigate(`/catalog/${catalogId}/product`)}
         )
     }
@@ -77,6 +81,18 @@ export default function ProductEditPage() {
                                 value={title}
                                 onUpdate={(v) => setValue('title', v)}
                                 placeholder="Mahsulot nomi"
+                                disabled={isPending}
+                                size="l"
+                            />
+                        </div>
+
+                        <div className={s.field}>
+                            <Text variant="body-2">Narx</Text>
+                            <TextInput
+                                value={price ? formatNumber(extractDigits(String(price))) : ''}
+                                onUpdate={(v) => setValue('price', extractDigits(v), {shouldDirty: true})}
+                                placeholder="0"
+                                endContent={<Text variant="body-2" color="hint">UZS</Text>}
                                 disabled={isPending}
                                 size="l"
                             />

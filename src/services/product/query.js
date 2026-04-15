@@ -15,7 +15,7 @@ export const useGetAllProducts = (catalogId) => {
 
 export const useCreateProduct = () => useInfoMutation({
     queryKey: ['product'],
-    mutationFn: ({catalogId, data, resource_locale}) => createProduct(catalogId, data, resource_locale),
+    mutationFn: ({catalogId, data, locale}) => createProduct(catalogId, data, locale),
 })
 
 export const useGetProduct = (catalogId, productId, locale) => useQuery({
@@ -26,7 +26,7 @@ export const useGetProduct = (catalogId, productId, locale) => useQuery({
 
 export const useUpdateProduct = () => useInfoMutation({
     queryKey: ['product'],
-    mutationFn: ({catalogId, productId, data, resource_locale}) => updateProduct(catalogId, productId, data, resource_locale),
+    mutationFn: ({catalogId, productId, data, locale}) => updateProduct(catalogId, productId, data, locale),
 })
 
 export const useDeleteProduct = () => useInfoMutation({
