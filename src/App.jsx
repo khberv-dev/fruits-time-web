@@ -1,4 +1,6 @@
 import {BrowserRouter, Navigate, Route, Routes} from "react-router";
+import {ToasterComponent, ToasterProvider} from "@gravity-ui/uikit";
+import {toaster} from "@/services/toaster.js";
 import {AuthProvider} from "@/providers/auth.jsx";
 import {ResourceLocaleProvider} from "@/providers/resource-locale.jsx";
 import {HeaderProvider} from "@/providers/header.jsx";
@@ -22,6 +24,8 @@ const RequireAuth = ({children}) => {
 
 function App() {
     return (
+        <ToasterProvider toaster={toaster}>
+            <ToasterComponent/>
         <BrowserRouter>
             <ResourceLocaleProvider>
                 <AuthProvider>
@@ -43,6 +47,7 @@ function App() {
                 </AuthProvider>
                 </ResourceLocaleProvider>
         </BrowserRouter>
+        </ToasterProvider>
     )
 }
 
