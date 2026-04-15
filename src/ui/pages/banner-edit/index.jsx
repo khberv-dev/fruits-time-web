@@ -1,0 +1,119 @@
+import {useEffect} from "react";
+import {useNavigate, useLocation, useParams} from "react-router";
+import {useForm} from "react-hook-form";
+import {Button, Text, TextInput, Switch} from "@gravity-ui/uikit";
+import {useUpdateBanner, useGetBanner} from "@/services/banner/query.js";
+import {useHeader} from "@/providers/header.jsx";
+import {useResourceLocale} from "@/providers/resource-locale.jsx";
+import {baseCdnUrl} from "@/services/config.js";
+import ImageUpload from "@/ui/components/image-upload/index.jsx";
+import s from "./main.module.css";
+
+export default function BannerEditPage() {
+    const {bannerId} = useParams()
+    const {state} = useLocation()
+    const navigate = useNavigate()
+    const {resourceLocale} = useResourceLocale()
+    const {mutate: updateBanner, isPending} = useUpdateBanner()
+    const {setHeader} = useHeader()
+
+    const {data: bannerData} = useGetBanner(bannerId, resourceLocale)
+
+    const {handleSubmit, watch, setValue} = useForm({
+        defaultValues: {
+            title: state?.banner?.title ?? '',
+            content: state?.banner?.content ?? '',
+            isActive: state?.banner?.isActive ?? false,
+            file: null,
+        }
+    })
+
+    const [title, content, isActive, file] = watch(['title', 'content', 'isActive', 'file'])
+
+    useEffect(() => {
+        setHeader({
+            title: state?.banner?.title ?? 'Bannerni tahrirlash',
+            onBack: () => navigate(-1),
+        })
+    }, [state?.banner?.title])
+
+    useEffect(() => {
+        if (!bannerData) return
+        setValue('title', bannerData.title ?? '', {shouldDirty: true})
+        setValue('content', bannerData.content ?? '', {shouldDirty: true})
+        setValue('isActive', bannerData.isActive ?? false, {shouldDirty: true})
+        setValue('file', null, {shouldDirty: true})
+    }, [bannerData])
+
+    const onSubmit = () => {
+        const fd = new FormData()
+        fd.append('title', title.trim())
+        fd.append('content', content.trim())
+        fd.append('isActive', String(isActive))
+        if (file) fd.append('file', file)
+
+        updateBanner(
+            {bannerId, data: fd, locale: resourceLocale},
+            {onSuccess: () => navigate('/banner')}
+        )
+    }
+
+    const previewSrc = state?.banner?.image ? `${baseCdnUrl}/banner/${state.banner.image}` : null
+
+    return (
+        <div className={s.root}>
+            <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
+                <ImageUpload
+                    value={file}
+                    onUpdate={(f) => setValue('file', f)}
+                    previewSrc={previewSrc}
+                    disabled={isPending}
+                />
+
+                <div className={s.field}>
+                    <Text variant="body-2">Sarlavha</Text>
+                    <TextInput
+                        value={title}
+                        onUpdate={(v) => setValue('title', v, {shouldDirty: true})}
+                        placeholder="Banner sarlavhasi"
+                        disabled={isPending}
+                        size="l"
+                    />
+                </div>
+
+                <div className={s.field}>
+                    <Text variant="body-2">Matn</Text>
+                    <textarea
+                        className={s.textarea}
+                        value={content}
+                        onChange={(e) => setValue('content', e.target.value)}
+                        placeholder="Banner matni"
+                        rows={4}
+                        disabled={isPending}
+                    />
+                </div>
+
+                <div className={s.activeRow}>
+                    <Text variant="body-2">Faol</Text>
+                    <Switch
+                        checked={isActive}
+                        onUpdate={(v) => setValue('isActive', v, {shouldDirty: true})}
+                        disabled={isPending}
+                    />
+                </div>
+
+                <div className={s.footer}>
+                    <Button
+                        type="submit"
+                        view="action"
+                        size="l"
+                        loading={isPending}
+                        disabled={!title.trim()}
+                    >
+                        Saqlash
+                    </Button>
+                </div>
+            </form>
+        </div>
+    )
+}

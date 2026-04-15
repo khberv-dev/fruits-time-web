@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {Outlet, useLocation, useNavigate} from "react-router";
 import {AsideHeader} from "@gravity-ui/navigation";
-import {House, LayoutCells, Megaphone} from "@gravity-ui/icons";
+import {House, LayoutCells, Megaphone, ShoppingBag} from "@gravity-ui/icons";
 import {Button, Text} from "@gravity-ui/uikit";
 import {ArrowLeft} from "@gravity-ui/icons";
 import ProfileCard from "@/ui/components/profile-card/index.jsx";
@@ -12,6 +12,7 @@ import s from "./main.module.css";
 const NAV_ITEMS = [
     {id: 'main', title: 'Asosiy', icon: House, path: '/'},
     {id: 'catalog', title: 'Kataloglar', icon: LayoutCells, path: '/catalog'},
+    {id: 'orders', title: 'Buyurtmalar', icon: ShoppingBag, path: '/orders'},
     {id: 'banner', title: 'Bannerlar', icon: Megaphone, path: '/banner'},
 ]
 
@@ -46,7 +47,7 @@ export default function AppLayout() {
                             )}
                             {title && <Text variant="subheader-3">{title}</Text>}
                         </div>
-                        {pathname.startsWith('/catalog') && <LocaleSwitch/>}
+                        {(pathname.startsWith('/catalog') || pathname.startsWith('/banner')) && <LocaleSwitch/>}
                     </header>
                     <div className={s.content}>
                         <Outlet/>
