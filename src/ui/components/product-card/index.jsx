@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {Button, Card, Text} from "@gravity-ui/uikit";
+import {Button, Card, Label, Text} from "@gravity-ui/uikit";
 import {Pencil, TrashBin} from "@gravity-ui/icons";
 import {baseCdnUrl} from "@/services/config.js";
 import {formatNumber} from "@/utils/lib.js";
@@ -14,7 +14,12 @@ export default function ProductCard({product, onEdit, onDelete}) {
                 alt={product.title}
             />
             <div className={s.body}>
-                <Text variant="subheader-2" ellipsis>{product.title}</Text>
+                <div className={s.titleRow}>
+                    <Text variant="subheader-2" ellipsis>{product.title}</Text>
+                    <Label theme={product.isActive ? 'success' : 'default'} size="s">
+                        {product.isActive ? 'Faol' : 'Nofaol'}
+                    </Label>
+                </div>
                 {product.price != null && (
                     <Text variant="body-1">{formatNumber(product.price)} UZS</Text>
                 )}

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate, useLocation, useParams} from "react-router";
 import {useForm} from "react-hook-form";
-import {Button, Text, TextInput} from "@gravity-ui/uikit";
+import {Button, Switch, Text, TextInput} from "@gravity-ui/uikit";
 import {Plus, Xmark} from "@gravity-ui/icons";
 import {useUpdateProduct, useDeleteProduct, useGetProduct} from "@/services/product/query.js";
 import ConfirmDialog from "@/ui/components/confirm-dialog/index.jsx";
@@ -30,11 +30,12 @@ export default function ProductEditPage() {
             description: state?.product?.description ?? '',
             compound: state?.product?.compound ?? [''],
             price: state?.product?.price ?? '',
+            isActive: state?.product?.isActive ?? false,
             file: null,
         }
     })
 
-    const [title, description, compound, price, file] = watch(['title', 'description', 'compound', 'price', 'file'])
+    const [title, description, compound, price, isActive, file] = watch(['title', 'description', 'compound', 'price', 'isActive', 'file'])
 
     useEffect(() => {
         setHeader({
@@ -49,6 +50,7 @@ export default function ProductEditPage() {
         setValue('description', productData.description ?? '', {shouldDirty: true})
         setValue('compound', productData.compound?.length ? productData.compound : [''], {shouldDirty: true})
         setValue('price', productData.price ?? '', {shouldDirty: true})
+        setValue('isActive', productData.isActive ?? false, {shouldDirty: true})
         setValue('file', null, {shouldDirty: true})
     }, [productData])
 
@@ -61,6 +63,7 @@ export default function ProductEditPage() {
         fd.append('title', title.trim())
         fd.append('description', description.trim())
         fd.append('price', Number(extractDigits(String(price))))
+        fd.append('isActive', String(isActive))
         compound.filter((c) => c.trim()).forEach((c, i) => fd.append(`compound[${i}]`, c.trim()))
         if (file) fd.append('file', file)
 
@@ -106,6 +109,15 @@ export default function ProductEditPage() {
                                 onChange={(e) => setValue('description', e.target.value)}
                                 placeholder="Mahsulot tavsifi"
                                 rows={6}
+                                disabled={isPending}
+                            />
+                        </div>
+
+                        <div className={s.activeRow}>
+                            <Text variant="body-2">Faol</Text>
+                            <Switch
+                                checked={isActive}
+                                onUpdate={(v) => setValue('isActive', v, {shouldDirty: true})}
                                 disabled={isPending}
                             />
                         </div>

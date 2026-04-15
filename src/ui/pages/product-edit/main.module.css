@@ -63,6 +63,12 @@
     flex: 1;
 }
 
+.activeRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .footer {
     display: flex;
     justify-content: flex-end;

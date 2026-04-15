@@ -17,6 +17,12 @@
     gap: 6px;
 }
 
+.activeRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .footer {
     display: flex;
     justify-content: space-between;

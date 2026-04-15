@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate, useLocation, useParams} from "react-router";
 import {useForm} from "react-hook-form";
-import {Button, Text, TextInput} from "@gravity-ui/uikit";
+import {Button, Switch, Text, TextInput} from "@gravity-ui/uikit";
 import {useUpdateCatalog, useDeleteCatalog, useGetCatalog} from "@/services/catalog/query.js";
 import ConfirmDialog from "@/ui/components/confirm-dialog/index.jsx";
 import {useHeader} from "@/providers/header.jsx";
@@ -23,10 +23,10 @@ export default function CatalogEditPage() {
     const {data: catalogData} = useGetCatalog(catalogId, resourceLocale)
 
     const {handleSubmit, watch, setValue} = useForm({
-        defaultValues: {title: state?.catalog?.title ?? '', file: null}
+        defaultValues: {title: state?.catalog?.title ?? '', isActive: state?.catalog?.isActive ?? false, file: null}
     })
 
-    const [title, file] = watch(['title', 'file'])
+    const [title, isActive, file] = watch(['title', 'isActive', 'file'])
 
     useEffect(() => {
         setHeader({
@@ -38,12 +38,14 @@ export default function CatalogEditPage() {
     useEffect(() => {
         if (!catalogData) return
         setValue('title', catalogData.title ?? '', {shouldDirty: true})
+        setValue('isActive', catalogData.isActive ?? false, {shouldDirty: true})
         setValue('file', null, {shouldDirty: true})
     }, [catalogData])
 
     const onSubmit = () => {
         const fd = new FormData()
         fd.append('title', title.trim())
+        fd.append('isActive', String(isActive))
         if (file) fd.append('file', file)
 
         updateCatalog(
@@ -70,6 +72,15 @@ export default function CatalogEditPage() {
                         placeholder="Katalog nomi"
                         disabled={isPending}
                         size="l"
+                    />
+                </div>
+
+                <div className={s.activeRow}>
+                    <Text variant="body-2">Faol</Text>
+                    <Switch
+                        checked={isActive}
+                        onUpdate={(v) => setValue('isActive', v, {shouldDirty: true})}
+                        disabled={isPending}
                     />
                 </div>
 
