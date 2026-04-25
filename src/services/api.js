@@ -23,9 +23,9 @@ api.interceptors.request.use(
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
-        const original = error.config
+        const config = error.config
 
-        if (error.response?.status !== 401 || original.url === refreshTokensPath) {
+        if (error.response?.status !== 401 || config.url === refreshTokensPath) {
             return Promise.reject(error)
         }
 
@@ -38,13 +38,13 @@ api.interceptors.response.use(
             localStorage.setItem('access_token', data.accessToken)
             localStorage.setItem('refresh_token', data.refreshToken)
 
-            original.headers['Authorization'] = `Bearer ${data.accessToken}`
-            return api(original)
+            config.headers['Authorization'] = `Bearer ${data.accessToken}`
+
+            return api(config)
         } catch (err) {
             localStorage.removeItem('access_token')
             localStorage.removeItem('refresh_token')
             window.location.href = '/login'
-            return Promise.reject(err)
         }
     }
 )
