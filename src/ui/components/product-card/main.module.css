@@ -2,10 +2,33 @@
     overflow: hidden;
 }
 
+.imageWrap {
+    position: relative;
+}
+
 .image {
     width: 100%;
     height: 160px;
     object-fit: cover;
+    display: block;
+}
+
+.typeBadge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #FFD600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.typeBadgeIcon {
+    width: 14px;
+    height: 14px;
     display: block;
 }
 

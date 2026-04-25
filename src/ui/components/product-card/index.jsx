@@ -3,16 +3,24 @@ import {Button, Card, Label, Text} from "@gravity-ui/uikit";
 import {Pencil, TrashBin} from "@gravity-ui/icons";
 import {baseCdnUrl} from "@/services/config.js";
 import {formatNumber} from "@/utils/lib.js";
+import pillIcon from "./pill.svg";
 import s from "./main.module.css";
 
 export default function ProductCard({product, onEdit, onDelete}) {
     return (
         <Card className={s.root} view="outlined">
-            <img
-                className={s.image}
-                src={`${baseCdnUrl}/product/${product.image}`}
-                alt={product.title}
-            />
+            <div className={s.imageWrap}>
+                <img
+                    className={s.image}
+                    src={`${baseCdnUrl}/product/${product.image}`}
+                    alt={product.title}
+                />
+                {product.type === 'vitamin' && (
+                    <div className={s.typeBadge}>
+                        <img src={pillIcon} alt="vitamin" className={s.typeBadgeIcon}/>
+                    </div>
+                )}
+            </div>
             <div className={s.body}>
                 <div className={s.titleRow}>
                     <Text variant="subheader-2" ellipsis>{product.title}</Text>

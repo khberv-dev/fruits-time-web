@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import {useNavigate, useParams} from "react-router";
 import {useForm} from "react-hook-form";
-import {Button, Text, TextInput} from "@gravity-ui/uikit";
+import {Button, Select, Text, TextInput} from "@gravity-ui/uikit";
 import {Plus, Xmark} from "@gravity-ui/icons";
 import {useCreateProduct} from "@/services/product/query.js";
 import {useHeader} from "@/providers/header.jsx";
@@ -18,10 +18,10 @@ export default function ProductCreatePage() {
     const {setHeader} = useHeader()
 
     const {handleSubmit, watch, setValue} = useForm({
-        defaultValues: {title: '', description: '', compound: [''], price: '', file: null}
+        defaultValues: {title: '', description: '', compound: [''], price: '', type: 'juice', file: null}
     })
 
-    const [title, description, compound, price, file] = watch(['title', 'description', 'compound', 'price', 'file'])
+    const [title, description, compound, price, type, file] = watch(['title', 'description', 'compound', 'price', 'type', 'file'])
 
     useEffect(() => {
         setHeader({
@@ -39,6 +39,7 @@ export default function ProductCreatePage() {
         fd.append('title', title.trim())
         fd.append('description', description.trim())
         fd.append('price', Number(extractDigits(String(price))))
+        fd.append('type', type)
         compound.filter((c) => c.trim()).forEach((c, i) => fd.append(`compound[${i}]`, c.trim()))
         if (file) fd.append('file', file)
 
@@ -73,6 +74,21 @@ export default function ProductCreatePage() {
                                 endContent={<Text variant="body-2" color="hint">UZS</Text>}
                                 disabled={isPending}
                                 size="l"
+                            />
+                        </div>
+
+                        <div className={s.field}>
+                            <Text variant="body-2">Turi</Text>
+                            <Select
+                                value={[type]}
+                                onUpdate={([v]) => setValue('type', v, {shouldDirty: true})}
+                                options={[
+                                    {value: 'juice', content: 'Sharbat'},
+                                    {value: 'vitamin', content: 'Vitamin'},
+                                ]}
+                                disabled={isPending}
+                                size="l"
+                                width="max"
                             />
                         </div>
 
