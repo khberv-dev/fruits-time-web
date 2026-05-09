@@ -18,10 +18,10 @@ export default function ProductCreatePage() {
     const {setHeader} = useHeader()
 
     const {handleSubmit, watch, setValue} = useForm({
-        defaultValues: {title: '', description: '', compound: [''], price: '', type: 'juice', file: null}
+        defaultValues: {title: '', description: '', compound: [''], price: '', type: 'juice', posId: '', file: null}
     })
 
-    const [title, description, compound, price, type, file] = watch(['title', 'description', 'compound', 'price', 'type', 'file'])
+    const [title, description, compound, price, type, posId, file] = watch(['title', 'description', 'compound', 'price', 'type', 'posId', 'file'])
 
     useEffect(() => {
         setHeader({
@@ -40,6 +40,7 @@ export default function ProductCreatePage() {
         fd.append('description', description.trim())
         fd.append('price', Number(extractDigits(String(price))))
         fd.append('type', type)
+        if (posId.trim()) fd.append('pos_id', posId.trim())
         compound.filter((c) => c.trim()).forEach((c, i) => fd.append(`compound[${i}]`, c.trim()))
         if (file) fd.append('file', file)
 
@@ -89,6 +90,17 @@ export default function ProductCreatePage() {
                                 disabled={isPending}
                                 size="l"
                                 width="max"
+                            />
+                        </div>
+
+                        <div className={s.field}>
+                            <Text variant="body-2">POS ID</Text>
+                            <TextInput
+                                value={posId}
+                                onUpdate={(v) => setValue('posId', v, {shouldDirty: true})}
+                                placeholder="POS ID"
+                                disabled={isPending}
+                                size="l"
                             />
                         </div>
 

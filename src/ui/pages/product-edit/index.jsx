@@ -31,12 +31,13 @@ export default function ProductEditPage() {
             compound: state?.product?.compound ?? [''],
             price: state?.product?.price ?? '',
             type: state?.product?.type ?? 'juice',
+            posId: state?.product?.posId ?? state?.product?.pos_id ?? '',
             isActive: state?.product?.isActive ?? false,
             file: null,
         }
     })
 
-    const [title, description, compound, price, type, isActive, file] = watch(['title', 'description', 'compound', 'price', 'type', 'isActive', 'file'])
+    const [title, description, compound, price, type, posId, isActive, file] = watch(['title', 'description', 'compound', 'price', 'type', 'posId', 'isActive', 'file'])
 
     useEffect(() => {
         setHeader({
@@ -52,6 +53,7 @@ export default function ProductEditPage() {
         setValue('compound', productData.compound?.length ? productData.compound : [''], {shouldDirty: true})
         setValue('price', productData.price ?? '', {shouldDirty: true})
         setValue('type', productData.type ?? 'juice', {shouldDirty: true})
+        setValue('posId', productData.posId ?? productData.pos_id ?? '', {shouldDirty: true})
         setValue('isActive', productData.isActive ?? false, {shouldDirty: true})
         setValue('file', null, {shouldDirty: true})
     }, [productData])
@@ -66,6 +68,7 @@ export default function ProductEditPage() {
         fd.append('description', description.trim())
         fd.append('price', Number(extractDigits(String(price))))
         fd.append('type', type)
+        fd.append('pos_id', posId.trim())
         fd.append('isActive', String(isActive))
         compound.filter((c) => c.trim()).forEach((c, i) => fd.append(`compound[${i}]`, c.trim()))
         if (file) fd.append('file', file)
@@ -116,6 +119,17 @@ export default function ProductEditPage() {
                                 disabled={isPending}
                                 size="l"
                                 width="max"
+                            />
+                        </div>
+
+                        <div className={s.field}>
+                            <Text variant="body-2">POS ID</Text>
+                            <TextInput
+                                value={posId}
+                                onUpdate={(v) => setValue('posId', v, {shouldDirty: true})}
+                                placeholder="POS ID"
+                                disabled={isPending}
+                                size="l"
                             />
                         </div>
 
