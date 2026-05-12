@@ -68,7 +68,7 @@ export default function ProductEditPage() {
         fd.append('description', description.trim())
         fd.append('price', Number(extractDigits(String(price))))
         fd.append('type', type)
-        fd.append('pos_id', posId.trim())
+        fd.append('posId', posId.trim())
         fd.append('isActive', String(isActive))
         compound.filter((c) => c.trim()).forEach((c, i) => fd.append(`compound[${i}]`, c.trim()))
         if (file) fd.append('file', file)
