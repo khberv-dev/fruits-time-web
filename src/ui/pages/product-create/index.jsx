@@ -6,7 +6,7 @@ import {Plus, Xmark} from "@gravity-ui/icons";
 import {useCreateProduct} from "@/services/product/query.js";
 import {useHeader} from "@/providers/header.jsx";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
-import {formatNumber, extractDigits} from "@/utils/lib.js";
+import {extractDigits, formatNumber} from "@/utils/lib.js";
 import ImageUpload from "@/ui/components/image-upload/index.jsx";
 import s from "./main.module.css";
 
@@ -40,7 +40,7 @@ export default function ProductCreatePage() {
         fd.append('description', description.trim())
         fd.append('price', Number(extractDigits(String(price))))
         fd.append('type', type)
-        if (posId.trim()) fd.append('pos_id', posId.trim())
+        if (posId) fd.append('pos_id', posId)
         compound.filter((c) => c.trim()).forEach((c, i) => fd.append(`compound[${i}]`, c.trim()))
         if (file) fd.append('file', file)
 
