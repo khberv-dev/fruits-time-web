@@ -40,7 +40,7 @@ export default function ProductCreatePage() {
         fd.append('description', description.trim())
         fd.append('price', Number(extractDigits(String(price))))
         fd.append('type', type)
-        if (posId) fd.append('pos_id', posId)
+        if (posId) fd.append('posId', posId)
         compound.filter((c) => c.trim()).forEach((c, i) => fd.append(`compound[${i}]`, c.trim()))
         if (file) fd.append('file', file)
 

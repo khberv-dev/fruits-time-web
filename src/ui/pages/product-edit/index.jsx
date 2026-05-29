@@ -53,7 +53,7 @@ export default function ProductEditPage() {
         setValue('compound', productData.compound?.length ? productData.compound : [''], {shouldDirty: true})
         setValue('price', productData.price ?? '', {shouldDirty: true})
         setValue('type', productData.type ?? 'juice', {shouldDirty: true})
-        setValue('posId', productData.posId ?? productData.pos_id ?? '', {shouldDirty: true})
+        setValue('posId', productData.posId ?? productData.posId ?? '', {shouldDirty: true})
         setValue('isActive', productData.isActive ?? false, {shouldDirty: true})
         setValue('file', null, {shouldDirty: true})
     }, [productData])
