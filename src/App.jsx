@@ -17,6 +17,7 @@ import OrdersPage from "@/ui/pages/orders/index.jsx";
 import BannerPage from "@/ui/pages/banner/index.jsx";
 import BannerCreatePage from "@/ui/pages/banner-create/index.jsx";
 import BannerEditPage from "@/ui/pages/banner-edit/index.jsx";
+import BranchPage from "@/ui/pages/branch/index.jsx";
 
 const RequireAuth = ({children}) => {
     if (!localStorage.getItem('access_token')) {
@@ -29,30 +30,32 @@ function App() {
     return (
         <ToasterProvider toaster={toaster}>
             <ToasterComponent/>
-        <BrowserRouter>
-            <ResourceLocaleProvider>
-                <AuthProvider>
-                    <HeaderProvider>
-                    <Routes>
-                        <Route path="/login" element={<LoginPage/>}/>
-                        <Route element={<RequireAuth><AppLayout/></RequireAuth>}>
-                            <Route path="/" element={<MainPage/>}/>
-                            <Route path="/catalog" element={<CatalogPage/>}/>
-                            <Route path="/catalog/create" element={<CatalogCreatePage/>}/>
-                            <Route path="/catalog/:catalogId/product" element={<CatalogProductsPage/>}/>
-                            <Route path="/catalog/:catalogId/product/create" element={<ProductCreatePage/>}/>
-                            <Route path="/catalog/:catalogId/edit" element={<CatalogEditPage/>}/>
-                            <Route path="/catalog/:catalogId/product/:productId/edit" element={<ProductEditPage/>}/>
-                            <Route path="/orders" element={<OrdersPage/>}/>
-                            <Route path="/banner" element={<BannerPage/>}/>
-                            <Route path="/banner/create" element={<BannerCreatePage/>}/>
-                            <Route path="/banner/:bannerId/edit" element={<BannerEditPage/>}/>
-                        </Route>
-                    </Routes>
-                    </HeaderProvider>
-                </AuthProvider>
+            <BrowserRouter>
+                <ResourceLocaleProvider>
+                    <AuthProvider>
+                        <HeaderProvider>
+                            <Routes>
+                                <Route path="/login" element={<LoginPage/>}/>
+                                <Route element={<RequireAuth><AppLayout/></RequireAuth>}>
+                                    <Route path="/" element={<MainPage/>}/>
+                                    <Route path="/catalog" element={<CatalogPage/>}/>
+                                    <Route path="/catalog/create" element={<CatalogCreatePage/>}/>
+                                    <Route path="/catalog/:catalogId/product" element={<CatalogProductsPage/>}/>
+                                    <Route path="/catalog/:catalogId/product/create" element={<ProductCreatePage/>}/>
+                                    <Route path="/catalog/:catalogId/edit" element={<CatalogEditPage/>}/>
+                                    <Route path="/catalog/:catalogId/product/:productId/edit"
+                                           element={<ProductEditPage/>}/>
+                                    <Route path="/orders" element={<OrdersPage/>}/>
+                                    <Route path="/banner" element={<BannerPage/>}/>
+                                    <Route path="/banner/create" element={<BannerCreatePage/>}/>
+                                    <Route path="/banner/:bannerId/edit" element={<BannerEditPage/>}/>
+                                    <Route path="/branch" element={<BranchPage/>}/>
+                                </Route>
+                            </Routes>
+                        </HeaderProvider>
+                    </AuthProvider>
                 </ResourceLocaleProvider>
-        </BrowserRouter>
+            </BrowserRouter>
         </ToasterProvider>
     )
 }
