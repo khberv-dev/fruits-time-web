@@ -1,9 +1,12 @@
 .root {
     overflow: hidden;
+    height: 100%;
 }
 
 .body {
     padding: 16px;
+    height: 100%;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -11,11 +14,24 @@
 
 .titleRow {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 8px;
 }
 
+.labels {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.info {
+    flex: 1;
+}
+
 .actions {
-    margin-top: 6px;
+    margin-top: auto;
+    padding-top: 12px;
 }

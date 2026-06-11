@@ -18,6 +18,7 @@ import BannerPage from "@/ui/pages/banner/index.jsx";
 import BannerCreatePage from "@/ui/pages/banner-create/index.jsx";
 import BannerEditPage from "@/ui/pages/banner-edit/index.jsx";
 import BranchPage from "@/ui/pages/branch/index.jsx";
+import BranchEditPage from "@/ui/pages/branch-edit/index.jsx";
 
 const RequireAuth = ({children}) => {
     if (!localStorage.getItem('access_token')) {
@@ -50,6 +51,7 @@ function App() {
                                     <Route path="/banner/create" element={<BannerCreatePage/>}/>
                                     <Route path="/banner/:bannerId/edit" element={<BannerEditPage/>}/>
                                     <Route path="/branch" element={<BranchPage/>}/>
+                                    <Route path="/branch/:branchId/edit" element={<BranchEditPage/>}/>
                                 </Route>
                             </Routes>
                         </HeaderProvider>

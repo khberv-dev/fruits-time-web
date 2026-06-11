@@ -1,31 +1,21 @@
-import {useEffect, useState} from "react";
-import {useGetAllBranches, useGetStorages, useSyncBranches, useUpdateBranch} from "@/services/branch/query.js";
+import {useEffect} from "react";
+import {useNavigate} from "react-router";
+import {useGetAllBranches, useSyncBranches} from "@/services/branch/query.js";
 import {useHeader} from "@/providers/header.jsx";
 import {Button} from "@gravity-ui/uikit";
 import {ArrowRotateLeft} from "@gravity-ui/icons";
 import BranchCard from "@/ui/components/branch-card/index.jsx";
-import BindStorageDialog from "@/ui/components/bind-storage-dialog/index.jsx";
 import s from "./main.module.css";
 
 export default function BranchPage() {
+    const navigate = useNavigate()
     const {data: branches = [], isLoading} = useGetAllBranches()
-    const {data: storages = []} = useGetStorages()
     const {mutate: syncBranches, isPending: isSyncing} = useSyncBranches()
-    const {mutate: updateBranch, isPending: isUpdating} = useUpdateBranch()
     const {setHeader} = useHeader()
-
-    const [bindingBranch, setBindingBranch] = useState(null)
 
     useEffect(() => {
         setHeader({title: 'Filiallar'})
     }, [])
-
-    const handleUpdateBranch = (data) => {
-        updateBranch(
-            {id: bindingBranch.id, data},
-            {onSuccess: () => setBindingBranch(null)}
-        )
-    }
 
     if (isLoading) return null
 
@@ -42,19 +32,10 @@ export default function BranchPage() {
                     <BranchCard
                         key={branch.id}
                         branch={branch}
-                        onBindStorage={() => setBindingBranch(branch)}
+                        onEdit={() => navigate(`/branch/${branch.id}/edit`, {state: {branch}})}
                     />
                 ))}
             </div>
-
-            <BindStorageDialog
-                open={!!bindingBranch}
-                branch={bindingBranch}
-                storages={storages}
-                loading={isUpdating}
-                onConfirm={handleUpdateBranch}
-                onClose={() => setBindingBranch(null)}
-            />
         </div>
     )
 }
