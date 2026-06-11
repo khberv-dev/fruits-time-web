@@ -8,12 +8,23 @@ export default function BranchCard({branch, onBindStorage}) {
             <div className={s.body}>
                 <div className={s.titleRow}>
                     <Text variant="subheader-2" ellipsis>{branch.name}</Text>
-                    <Label theme={branch.storageId ? 'success' : 'warning'} size="s">
-                        {branch.storageId ? 'Omborxona biriktirilgan' : 'Omborxona yo\'q'}
-                    </Label>
+                    <div style={{display: 'flex', gap: 4}}>
+                        <Label theme={branch.isWorking ? 'success' : 'danger'} size="s">
+                            {branch.isWorking ? 'Ochiq' : 'Yopiq'}
+                        </Label>
+                        <Label theme={branch.storageId ? 'info' : 'warning'} size="s">
+                            {branch.storageId ? 'Ombor biriktirilgan' : 'Ombor yo\'q'}
+                        </Label>
+                    </div>
                 </div>
                 {branch.address && (
                     <Text variant="body-1" color="secondary">{branch.address}</Text>
+                )}
+                {branch.managerName && (
+                    <Text variant="body-2" color="secondary">{branch.managerName}</Text>
+                )}
+                {branch.managerPhone && (
+                    <Text variant="caption-2" color="hint">{branch.managerPhone}</Text>
                 )}
                 {branch.storageId && (
                     <Text variant="caption-2" color="hint">Omborxona ID: {branch.storageId}</Text>

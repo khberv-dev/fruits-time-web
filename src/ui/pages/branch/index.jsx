@@ -20,9 +20,9 @@ export default function BranchPage() {
         setHeader({title: 'Filiallar'})
     }, [])
 
-    const handleBindStorage = (storageId) => {
+    const handleUpdateBranch = (data) => {
         updateBranch(
-            {id: bindingBranch.id, data: {storageId}},
+            {id: bindingBranch.id, data},
             {onSuccess: () => setBindingBranch(null)}
         )
     }
@@ -52,7 +52,7 @@ export default function BranchPage() {
                 branch={bindingBranch}
                 storages={storages}
                 loading={isUpdating}
-                onConfirm={handleBindStorage}
+                onConfirm={handleUpdateBranch}
                 onClose={() => setBindingBranch(null)}
             />
         </div>
