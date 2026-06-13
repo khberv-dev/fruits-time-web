@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import {useNavigate, useLocation, useParams} from "react-router";
+import {useLocation, useNavigate, useParams} from "react-router";
 import {useForm} from "react-hook-form";
 import {Button, Switch, Text, TextInput} from "@gravity-ui/uikit";
-import {useUpdateCatalog, useDeleteCatalog, useGetCatalog} from "@/services/catalog/query.js";
+import {useDeleteCatalog, useGetCatalog, useUpdateCatalog} from "@/services/catalog/query.js";
 import ConfirmDialog from "@/ui/components/confirm-dialog/index.jsx";
 import {useHeader} from "@/providers/header.jsx";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
@@ -23,10 +23,10 @@ export default function CatalogEditPage() {
     const {data: catalogData} = useGetCatalog(catalogId, resourceLocale)
 
     const {handleSubmit, watch, setValue} = useForm({
-        defaultValues: {title: state?.catalog?.title ?? '', isActive: state?.catalog?.isActive ?? false, file: null}
+        defaultValues: {title: state?.catalog?.title ?? '', isActive: state?.catalog?.isActive ?? false, index: state?.catalog?.index ?? '', file: null}
     })
 
-    const [title, isActive, file] = watch(['title', 'isActive', 'file'])
+    const [title, isActive, index, file] = watch(['title', 'isActive', 'index', 'file'])
 
     useEffect(() => {
         setHeader({
@@ -39,6 +39,7 @@ export default function CatalogEditPage() {
         if (!catalogData) return
         setValue('title', catalogData.title ?? '', {shouldDirty: true})
         setValue('isActive', catalogData.isActive ?? false, {shouldDirty: true})
+        setValue('index', catalogData.index ?? '', {shouldDirty: true})
         setValue('file', null, {shouldDirty: true})
     }, [catalogData])
 
@@ -46,6 +47,7 @@ export default function CatalogEditPage() {
         const fd = new FormData()
         fd.append('title', title.trim())
         fd.append('isActive', String(isActive))
+        if (index !== '') fd.append('index', Number(index))
         if (file) fd.append('file', file)
 
         updateCatalog(
@@ -70,6 +72,17 @@ export default function CatalogEditPage() {
                         value={title}
                         onUpdate={(v) => setValue('title', v)}
                         placeholder="Katalog nomi"
+                        disabled={isPending}
+                        size="l"
+                    />
+                </div>
+
+                <div className={s.field}>
+                    <Text variant="body-2">Tartib raqami</Text>
+                    <TextInput
+                        value={String(index)}
+                        onUpdate={(v) => setValue('index', v, {shouldDirty: true})}
+                        placeholder="0"
                         disabled={isPending}
                         size="l"
                     />

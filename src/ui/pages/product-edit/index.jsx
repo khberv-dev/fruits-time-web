@@ -1,14 +1,14 @@
 import {useEffect, useState} from "react";
-import {useNavigate, useLocation, useParams} from "react-router";
+import {useLocation, useNavigate, useParams} from "react-router";
 import {useForm} from "react-hook-form";
 import {Button, Select, Switch, Text, TextInput} from "@gravity-ui/uikit";
 import {Plus, Xmark} from "@gravity-ui/icons";
-import {useUpdateProduct, useDeleteProduct, useGetProduct} from "@/services/product/query.js";
+import {useDeleteProduct, useGetProduct, useUpdateProduct} from "@/services/product/query.js";
 import ConfirmDialog from "@/ui/components/confirm-dialog/index.jsx";
 import {useHeader} from "@/providers/header.jsx";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
 import {baseCdnUrl} from "@/services/config.js";
-import {formatNumber, extractDigits} from "@/utils/lib.js";
+import {extractDigits, formatNumber} from "@/utils/lib.js";
 import ImageUpload from "@/ui/components/image-upload/index.jsx";
 import s from "./main.module.css";
 
@@ -33,11 +33,12 @@ export default function ProductEditPage() {
             type: state?.product?.type ?? 'juice',
             posId: state?.product?.posId ?? state?.product?.pos_id ?? '',
             isActive: state?.product?.isActive ?? false,
+            index: state?.product?.index ?? '',
             file: null,
         }
     })
 
-    const [title, description, compound, price, type, posId, isActive, file] = watch(['title', 'description', 'compound', 'price', 'type', 'posId', 'isActive', 'file'])
+    const [title, description, compound, price, type, posId, isActive, index, file] = watch(['title', 'description', 'compound', 'price', 'type', 'posId', 'isActive', 'index', 'file'])
 
     useEffect(() => {
         setHeader({
@@ -53,8 +54,9 @@ export default function ProductEditPage() {
         setValue('compound', productData.compound?.length ? productData.compound : [''], {shouldDirty: true})
         setValue('price', productData.price ?? '', {shouldDirty: true})
         setValue('type', productData.type ?? 'juice', {shouldDirty: true})
-        setValue('posId', productData.posId ?? productData.posId ?? '', {shouldDirty: true})
+        setValue('posId', productData.posId ?? '', {shouldDirty: true})
         setValue('isActive', productData.isActive ?? false, {shouldDirty: true})
+        setValue('index', productData.index ?? '', {shouldDirty: true})
         setValue('file', null, {shouldDirty: true})
     }, [productData])
 
@@ -68,8 +70,9 @@ export default function ProductEditPage() {
         fd.append('description', description.trim())
         fd.append('price', Number(extractDigits(String(price))))
         fd.append('type', type)
-        fd.append('posId', posId)
+        if (posId) fd.append('posId', posId)
         fd.append('isActive', String(isActive))
+        if (index !== '') fd.append('index', Number(index))
         compound.filter((c) => c.trim()).forEach((c, i) => fd.append(`compound[${i}]`, c.trim()))
         if (file) fd.append('file', file)
 
@@ -128,6 +131,17 @@ export default function ProductEditPage() {
                                 value={posId}
                                 onUpdate={(v) => setValue('posId', v, {shouldDirty: true})}
                                 placeholder="POS ID"
+                                disabled={isPending}
+                                size="l"
+                            />
+                        </div>
+
+                        <div className={s.field}>
+                            <Text variant="body-2">Tartib raqami</Text>
+                            <TextInput
+                                value={String(index)}
+                                onUpdate={(v) => setValue('index', v, {shouldDirty: true})}
+                                placeholder="0"
                                 disabled={isPending}
                                 size="l"
                             />
@@ -223,7 +237,10 @@ export default function ProductEditPage() {
                 title="Mahsulotni o'chirish"
                 description="Bu amalni ortga qaytarib bo'lmaydi. Davom etasizmi?"
                 loading={isDeleting}
-                onConfirm={() => deleteProduct({catalogId, productId}, {onSuccess: () => navigate(`/catalog/${catalogId}/product`)})}
+                onConfirm={() => deleteProduct({
+                    catalogId,
+                    productId
+                }, {onSuccess: () => navigate(`/catalog/${catalogId}/product`)})}
                 onClose={() => setConfirmOpen(false)}
             />
         </div>
