@@ -1,0 +1,121 @@
+.root {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 860px;
+}
+
+.meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.labels {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.card {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.infoRows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.infoRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.itemsHeader {
+    padding: 16px 16px 0;
+}
+
+.itemsTable {
+    padding: 8px 0;
+}
+
+.itemsTableHead {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 12px;
+    padding: 6px 16px;
+    border-bottom: 1px solid var(--g-color-line-generic);
+}
+
+.itemRow {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--g-color-line-generic-hover);
+}
+
+.itemRow:last-child {
+    border-bottom: none;
+}
+
+.itemProduct {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.itemImage {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.colCenter {
+    text-align: center;
+    min-width: 48px;
+}
+
+.colRight {
+    text-align: right;
+    min-width: 100px;
+}
+
+.strikethrough {
+    text-decoration: line-through;
+}
+
+.summary {
+    border-top: 1px solid var(--g-color-line-generic);
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

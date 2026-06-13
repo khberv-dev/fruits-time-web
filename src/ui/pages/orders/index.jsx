@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router";
 import {Label, Pagination, Table, Text} from "@gravity-ui/uikit";
 import dayjs from "dayjs";
 import {useGetAdminOrders} from "@/services/order/query.js";
 import {useHeader} from "@/providers/header.jsx";
-import {formatNumber} from "@/utils/lib.js";
+import {formatNumber, formatPhoneNumber} from "@/utils/lib.js";
 import s from "./main.module.css";
 
 const PAGE_SIZE = 20
@@ -66,7 +67,9 @@ const COLUMNS = [
         template: (order) => (
             <div>
                 <Text as="div" variant="body-2">{order.user?.firstName ?? '—'}</Text>
-                <Text as="div" variant="caption-2" color="hint">{order.user?.phoneNumber}</Text>
+                <Text as="div" variant="caption-2" color="hint">
+                    {order.user?.phoneNumber ? formatPhoneNumber(order.user.phoneNumber) : '—'}
+                </Text>
             </div>
         ),
     },
@@ -100,6 +103,7 @@ const COLUMNS = [
 
 export default function OrdersPage() {
     const {setHeader} = useHeader()
+    const navigate = useNavigate()
     const [page, setPage] = useState(1)
 
     const {data, isLoading} = useGetAdminOrders(page, PAGE_SIZE)
@@ -111,9 +115,11 @@ export default function OrdersPage() {
     return (
         <div className={s.root}>
             <Table
+                width="max"
                 data={data?.data ?? []}
                 columns={COLUMNS}
                 getRowId={(order) => order.id}
+                onRowClick={(order) => navigate(`/orders/${order.id}`, {state: {order}})}
                 emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Buyurtmalar topilmadi'}
             />
             {data?.total > PAGE_SIZE && (
