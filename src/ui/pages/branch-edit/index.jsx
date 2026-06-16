@@ -24,11 +24,13 @@ export default function BranchEditPage() {
             isWorking: branch?.isWorking ?? true,
             long: branch?.long != null ? String(branch.long) : '',
             lat: branch?.lat != null ? String(branch.lat) : '',
+            openTime: branch?.openTime ?? '',
+            closeTime: branch?.closeTime ?? '',
         }
     })
 
-    const [storageId, managerName, managerPhone, isWorking, long, lat] =
-        watch(['storageId', 'managerName', 'managerPhone', 'isWorking', 'long', 'lat'])
+    const [storageId, managerName, managerPhone, isWorking, long, lat, openTime, closeTime] =
+        watch(['storageId', 'managerName', 'managerPhone', 'isWorking', 'long', 'lat', 'openTime', 'closeTime'])
 
     useEffect(() => {
         setHeader({
@@ -53,6 +55,8 @@ export default function BranchEditPage() {
                     isWorking,
                     long: long !== '' ? Number(long) : undefined,
                     lat: lat !== '' ? Number(lat) : undefined,
+                    openTime: openTime || null,
+                    closeTime: closeTime || null,
                 },
             },
             {onSuccess: () => navigate('/branch')}
@@ -114,6 +118,29 @@ export default function BranchEditPage() {
                             value={lat}
                             onUpdate={(v) => setValue('lat', v)}
                             placeholder="41.3645"
+                            size="l"
+                            disabled={isPending}
+                        />
+                    </div>
+                </div>
+
+                <div className={s.row}>
+                    <div className={s.field}>
+                        <Text variant="body-2">Ochilish vaqti</Text>
+                        <TextInput
+                            value={openTime}
+                            onUpdate={(v) => setValue('openTime', v)}
+                            placeholder="09:00"
+                            size="l"
+                            disabled={isPending}
+                        />
+                    </div>
+                    <div className={s.field}>
+                        <Text variant="body-2">Yopilish vaqti</Text>
+                        <TextInput
+                            value={closeTime}
+                            onUpdate={(v) => setValue('closeTime', v)}
+                            placeholder="22:00"
                             size="l"
                             disabled={isPending}
                         />

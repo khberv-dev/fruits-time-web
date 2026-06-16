@@ -1,11 +1,12 @@
-import {Avatar, Button, User} from "@gravity-ui/uikit";
-import {ArrowRightFromSquare} from "@gravity-ui/icons";
+import {useNavigate} from "react-router";
+import {Avatar, User} from "@gravity-ui/uikit";
 import {useAuth} from "@/providers/auth.jsx";
 import {formatPhoneNumber} from "@/utils/lib.js";
 import s from "./main.module.css";
 
 export default function ProfileCard({compact}) {
-    const {user, logout} = useAuth()
+    const {user} = useAuth()
+    const navigate = useNavigate()
 
     if (!user) return null
 
@@ -13,21 +14,14 @@ export default function ProfileCard({compact}) {
 
     if (compact) {
         return (
-            <div className={s.compact}>
-                <Button view="flat" onClick={logout} title="Chiqish">
-                    <Button.Icon><ArrowRightFromSquare/></Button.Icon>
-                </Button>
+            <div className={s.compact} onClick={() => navigate('/settings')} role="button">
                 <Avatar text={initials} size="m" theme="brand"/>
             </div>
         )
     }
 
     return (
-        <div className={s.root}>
-            <Button view="flat" width="max" onClick={logout}>
-                <Button.Icon><ArrowRightFromSquare/></Button.Icon>
-                Chiqish
-            </Button>
+        <div className={s.root} onClick={() => navigate('/settings')} role="button">
             <User
                 avatar={{text: initials, theme: 'brand'}}
                 name={user.firstName}

@@ -1,15 +1,15 @@
 import {useEffect, useState} from "react";
 import {Card, Text} from "@gravity-ui/uikit";
-import {Person, LayoutCells, ShoppingCart, Receipt} from "@gravity-ui/icons";
+import {Person, Receipt, Rectangles4, ShoppingCart} from "@gravity-ui/icons";
 import dayjs from "dayjs";
-import {useGetStats, useGetUsersTrend, useGetOrdersTrend} from "@/services/stats/query.js";
+import {useGetOrdersTrend, useGetStats, useGetUsersTrend} from "@/services/stats/query.js";
 import {useHeader} from "@/providers/header.jsx";
 import TrendChart from "@/ui/components/trend-chart/index.jsx";
 import s from "./main.module.css";
 
 const SUMMARY_CARDS = [
     {key: 'usersCount', label: 'Foydalanuvchilar', icon: Person},
-    {key: 'catalogsCount', label: 'Kataloglar', icon: LayoutCells},
+    {key: 'catalogsCount', label: 'Kataloglar', icon: Rectangles4},
     {key: 'productsCount', label: 'Mahsulotlar', icon: ShoppingCart},
     {key: 'ordersCount', label: 'Buyurtmalar', icon: Receipt},
 ]

@@ -1,5 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
-import {getAllBanners, getBanner, createBanner, updateBanner} from "@/services/banner/api.js";
+import {createBanner, getAllBanners, getBanner, updateBanner} from "@/services/banner/api.js";
 import {useInfoMutation} from "@/services/query.js";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
 

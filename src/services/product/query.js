@@ -1,5 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
-import {getAllProducts, getProduct, createProduct, updateProduct, deleteProduct} from "@/services/product/api.js";
+import {createProduct, deleteProduct, getAllProducts, getProduct, updateProduct} from "@/services/product/api.js";
 import {useInfoMutation} from "@/services/query.js";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
 

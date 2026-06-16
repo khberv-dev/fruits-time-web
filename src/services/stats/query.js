@@ -1,5 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
-import {getStats, getUsersTrend, getOrdersTrend} from "@/services/stats/api.js";
+import {getOrdersTrend, getStats, getUsersTrend} from "@/services/stats/api.js";
 
 export const useGetStats = () => useQuery({
     queryKey: ['stats'],

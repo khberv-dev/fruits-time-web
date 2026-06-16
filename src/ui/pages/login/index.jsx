@@ -20,7 +20,7 @@ export default function LoginPage() {
     const isValid = /^998\d{9}$/.test(phoneNumber) && password.length >= 8
     const errorMessage = error?.response?.data?.message ?? error?.message
 
-return (
+    return (
         <div className={s.root}>
             <Card className={s.card}>
                 <form className={s.form} onSubmit={handleSubmit(onSubmit)}>

@@ -1,8 +1,8 @@
 import {useEffect} from "react";
-import {useNavigate, useLocation, useParams} from "react-router";
+import {useLocation, useNavigate, useParams} from "react-router";
 import {useForm} from "react-hook-form";
-import {Button, Text, TextInput, Switch} from "@gravity-ui/uikit";
-import {useUpdateBanner, useGetBanner} from "@/services/banner/query.js";
+import {Button, Switch, Text, TextInput} from "@gravity-ui/uikit";
+import {useGetBanner, useUpdateBanner} from "@/services/banner/query.js";
 import {useHeader} from "@/providers/header.jsx";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
 import {baseCdnUrl} from "@/services/config.js";

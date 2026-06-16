@@ -1,5 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
-import {getAllCatalogs, getCatalog, createCatalog, updateCatalog, deleteCatalog} from "@/services/catalog/api.js";
+import {createCatalog, deleteCatalog, getAllCatalogs, getCatalog, updateCatalog} from "@/services/catalog/api.js";
 import {useInfoMutation} from "@/services/query.js";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
 

@@ -1,11 +1,73 @@
 import {useEffect} from "react";
 import {useNavigate} from "react-router";
-import {Button} from "@gravity-ui/uikit";
-import {Plus} from "@gravity-ui/icons";
+import {Button, Label, Table, Text} from "@gravity-ui/uikit";
+import {Pencil, Plus} from "@gravity-ui/icons";
+import dayjs from "dayjs";
 import {useGetAllBanners} from "@/services/banner/query.js";
 import {useHeader} from "@/providers/header.jsx";
-import BannerCard from "@/ui/components/banner-card/index.jsx";
+import {baseCdnUrl} from "@/services/config.js";
 import s from "./main.module.css";
+
+const COLUMNS = (navigate) => [
+    {
+        id: 'image',
+        name: '',
+        width: 80,
+        template: (banner) => (
+            <img
+                className={s.thumb}
+                src={`${baseCdnUrl}/banner/${banner.image}`}
+                alt={banner.title}
+            />
+        ),
+    },
+    {
+        id: 'title',
+        name: 'Nomi',
+        template: (banner) => (
+            <Text variant="body-2">{banner.title}</Text>
+        ),
+    },
+    {
+        id: 'content',
+        name: 'Mazmuni',
+        template: (banner) => (
+            <Text variant="body-2" color="secondary" ellipsis>{banner.content ?? '—'}</Text>
+        ),
+    },
+    {
+        id: 'status',
+        name: 'Holat',
+        width: 100,
+        template: (banner) => (
+            <Label theme={banner.isActive ? 'success' : 'default'} size="s">
+                {banner.isActive ? 'Faol' : 'Nofaol'}
+            </Label>
+        ),
+    },
+    {
+        id: 'createdAt',
+        name: 'Sana',
+        width: 120,
+        template: (banner) => (
+            <Text variant="body-2" color="hint">{dayjs(banner.createdAt).format('DD.MM.YYYY')}</Text>
+        ),
+    },
+    {
+        id: 'actions',
+        name: '',
+        width: 56,
+        template: (banner) => (
+            <Button
+                size="s"
+                view="flat"
+                onClick={(e) => { e.stopPropagation(); navigate(`/banner/${banner.id}/edit`, {state: {banner}}) }}
+            >
+                <Button.Icon><Pencil/></Button.Icon>
+            </Button>
+        ),
+    },
+]
 
 export default function BannerPage() {
     const navigate = useNavigate()
@@ -16,8 +78,6 @@ export default function BannerPage() {
         setHeader({title: 'Bannerlar'})
     }, [])
 
-    if (isLoading) return null
-
     return (
         <div className={s.root}>
             <div>
@@ -26,15 +86,13 @@ export default function BannerPage() {
                     Banner qo'shish
                 </Button>
             </div>
-            <div className={s.grid}>
-                {banners.map((banner) => (
-                    <BannerCard
-                        key={banner.id}
-                        banner={banner}
-                        onEdit={() => navigate(`/banner/${banner.id}/edit`, {state: {banner}})}
-                    />
-                ))}
-            </div>
+            <Table
+                width="max"
+                data={banners}
+                columns={COLUMNS(navigate)}
+                getRowId={(b) => b.id}
+                emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Bannerlar topilmadi'}
+            />
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {Card, Select, Text} from "@gravity-ui/uikit";
-import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from "recharts";
+import {CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import dayjs from "dayjs";
 import s from "./main.module.css";
 

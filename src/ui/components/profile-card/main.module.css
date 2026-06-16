@@ -1,16 +1,23 @@
 .root {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
     padding: 12px 16px;
     border-top: 1px solid var(--g-color-line-generic);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.root:hover {
+    background: var(--g-color-base-simple-hover);
 }
 
 .compact {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
     padding: 12px 0;
     border-top: 1px solid var(--g-color-line-generic);
+    cursor: pointer;
+}
+
+.compact:hover {
+    background: var(--g-color-base-simple-hover);
 }
