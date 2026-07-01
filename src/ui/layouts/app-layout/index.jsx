@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {Outlet, useLocation, useNavigate} from "react-router";
 import {AsideHeader} from "@gravity-ui/navigation";
-import {ArrowLeft, Gear, GeoFill, House, Megaphone, Rectangles4, ShoppingBag, Sparkles} from "@gravity-ui/icons";
+import {ArrowLeft, Gear, GeoFill, House, Megaphone, Percent, Rectangles4, ShoppingBag, Sparkles} from "@gravity-ui/icons";
 import {Button, Text} from "@gravity-ui/uikit";
 import ProfileCard from "@/ui/components/profile-card/index.jsx";
 import LocaleSwitch from "@/ui/components/locale-switch/index.jsx";
@@ -15,6 +15,7 @@ const NAV_ITEMS = [
     {id: 'banner', title: 'Bannerlar', icon: Megaphone, path: '/banner'},
     {id: 'branch', title: 'Filiallar', icon: GeoFill, path: '/branch'},
     {id: 'advisor', title: 'AI Maslahatchi', icon: Sparkles, path: '/advisor'},
+    {id: 'promotion', title: 'Aksiyalar', icon: Percent, path: '/promotion'},
     {id: 'settings', title: 'Sozlamalar', icon: Gear, path: '/settings'},
 ]
 
