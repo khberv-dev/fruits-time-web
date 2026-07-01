@@ -25,10 +25,11 @@ export default function BannerEditPage() {
             content: state?.banner?.content ?? '',
             isActive: state?.banner?.isActive ?? false,
             file: null,
+            thumbnail: null,
         }
     })
 
-    const [title, content, isActive, file] = watch(['title', 'content', 'isActive', 'file'])
+    const [title, content, isActive, file, thumbnail] = watch(['title', 'content', 'isActive', 'file', 'thumbnail'])
 
     useEffect(() => {
         setHeader({
@@ -43,6 +44,7 @@ export default function BannerEditPage() {
         setValue('content', bannerData.content ?? '', {shouldDirty: true})
         setValue('isActive', bannerData.isActive ?? false, {shouldDirty: true})
         setValue('file', null, {shouldDirty: true})
+        setValue('thumbnail', null, {shouldDirty: true})
     }, [bannerData])
 
     const onSubmit = () => {
@@ -51,6 +53,7 @@ export default function BannerEditPage() {
         fd.append('content', content.trim())
         fd.append('isActive', String(isActive))
         if (file) fd.append('file', file)
+        if (thumbnail) fd.append('thumbnail', thumbnail)
 
         updateBanner(
             {bannerId, data: fd, locale: resourceLocale},
@@ -59,6 +62,7 @@ export default function BannerEditPage() {
     }
 
     const previewSrc = state?.banner?.image ? `${baseCdnUrl}/banner/${state.banner.image}` : null
+    const thumbnailPreviewSrc = state?.banner?.thumbnail ? `${baseCdnUrl}/banner/${state.banner.thumbnail}` : null
 
     return (
         <div className={s.root}>
@@ -69,6 +73,16 @@ export default function BannerEditPage() {
                     previewSrc={previewSrc}
                     disabled={isPending}
                 />
+
+                <div className={s.field}>
+                    <Text variant="body-2">Kichik rasm (ixtiyoriy)</Text>
+                    <ImageUpload
+                        value={thumbnail}
+                        onUpdate={(f) => setValue('thumbnail', f)}
+                        previewSrc={thumbnailPreviewSrc}
+                        disabled={isPending}
+                    />
+                </div>
 
                 <div className={s.field}>
                     <Text variant="body-2">Sarlavha</Text>

@@ -15,10 +15,10 @@ export default function BannerCreatePage() {
     const {setHeader} = useHeader()
 
     const {handleSubmit, watch, setValue} = useForm({
-        defaultValues: {title: '', content: '', file: null}
+        defaultValues: {title: '', content: '', file: null, thumbnail: null}
     })
 
-    const [title, content, file] = watch(['title', 'content', 'file'])
+    const [title, content, file, thumbnail] = watch(['title', 'content', 'file', 'thumbnail'])
 
     useEffect(() => {
         setHeader({
@@ -32,6 +32,7 @@ export default function BannerCreatePage() {
         fd.append('title', title.trim())
         fd.append('content', content.trim())
         if (file) fd.append('file', file)
+        if (thumbnail) fd.append('thumbnail', thumbnail)
 
         createBanner(
             {data: fd, locale: resourceLocale},
@@ -47,6 +48,15 @@ export default function BannerCreatePage() {
                     onUpdate={(f) => setValue('file', f)}
                     disabled={isPending}
                 />
+
+                <div className={s.field}>
+                    <Text variant="body-2">Kichik rasm (ixtiyoriy)</Text>
+                    <ImageUpload
+                        value={thumbnail}
+                        onUpdate={(f) => setValue('thumbnail', f)}
+                        disabled={isPending}
+                    />
+                </div>
 
                 <div className={s.field}>
                     <Text variant="body-2">Sarlavha</Text>
