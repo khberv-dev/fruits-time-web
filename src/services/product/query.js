@@ -1,4 +1,4 @@
-import {useQuery} from "@tanstack/react-query";
+import {useQueries, useQuery} from "@tanstack/react-query";
 import {createProduct, deleteProduct, getAllProducts, getProduct, updateProduct} from "@/services/product/api.js";
 import {useInfoMutation} from "@/services/query.js";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
@@ -11,6 +11,23 @@ export const useGetAllProducts = (catalogId) => {
         queryFn: () => getAllProducts(catalogId, resourceLocale),
         enabled: !!catalogId,
     })
+}
+
+export const useGetAllProductsAcrossCatalogs = (catalogIds = []) => {
+    const {resourceLocale} = useResourceLocale()
+
+    const results = useQueries({
+        queries: catalogIds.map((catalogId) => ({
+            queryKey: ['product', 'all', catalogId, resourceLocale],
+            queryFn: () => getAllProducts(catalogId, resourceLocale),
+            enabled: !!catalogId,
+        }))
+    })
+
+    return {
+        data: results.flatMap((r) => r.data ?? []),
+        isLoading: results.some((r) => r.isLoading),
+    }
 }
 
 export const useCreateProduct = () => useInfoMutation({

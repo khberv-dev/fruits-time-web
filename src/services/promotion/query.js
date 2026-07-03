@@ -9,5 +9,5 @@ export const useGetAllPromotions = () => useQuery({
 
 export const useUpdatePromotion = () => useInfoMutation({
     queryKey: ['promotion'],
-    mutationFn: ({promotionId, isActive}) => updatePromotion(promotionId, isActive),
+    mutationFn: ({promotionId, data}) => updatePromotion(promotionId, data),
 })

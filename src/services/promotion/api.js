@@ -5,7 +5,7 @@ export async function getAllPromotions() {
     return res.data
 }
 
-export async function updatePromotion(promotionId, isActive) {
-    const res = await api.patch(`promotion/${promotionId}`, {isActive})
+export async function updatePromotion(promotionId, data) {
+    const res = await api.patch(`promotion/${promotionId}`, data)
     return res.data
 }
