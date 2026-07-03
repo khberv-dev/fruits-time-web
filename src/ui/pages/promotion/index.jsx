@@ -69,7 +69,10 @@ export default function PromotionPage() {
                         {info.productScoped && (
                             <Select
                                 value={promotion.productIds ?? []}
-                                onUpdate={(productIds) => updatePromotion({promotionId: promotion.id, data: {productIds}})}
+                                onUpdate={(productIds) => updatePromotion({
+                                    promotionId: promotion.id,
+                                    data: {isActive: promotion.isActive, productIds},
+                                })}
                                 options={productOptions}
                                 placeholder="Mahsulotlarni tanlang"
                                 multiple
