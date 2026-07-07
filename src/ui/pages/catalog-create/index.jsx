@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import {useNavigate} from "react-router";
 import {useForm} from "react-hook-form";
-import {Button, Text, TextInput} from "@gravity-ui/uikit";
+import {Button, Select, Text, TextInput} from "@gravity-ui/uikit";
 import {useCreateCatalog} from "@/services/catalog/query.js";
 import {useHeader} from "@/providers/header.jsx";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
@@ -15,10 +15,10 @@ export default function CatalogCreatePage() {
     const {setHeader} = useHeader()
 
     const {handleSubmit, watch, setValue} = useForm({
-        defaultValues: {title: '', file: null}
+        defaultValues: {title: '', type: 'juice', file: null}
     })
 
-    const [title, file] = watch(['title', 'file'])
+    const [title, type, file] = watch(['title', 'type', 'file'])
 
     useEffect(() => {
         setHeader({
@@ -30,6 +30,7 @@ export default function CatalogCreatePage() {
     const onSubmit = () => {
         const fd = new FormData()
         fd.append('title', title.trim())
+        fd.append('type', type)
         if (file) fd.append('file', file)
 
         createCatalog(
@@ -55,6 +56,21 @@ export default function CatalogCreatePage() {
                         placeholder="Katalog nomi"
                         disabled={isPending}
                         size="l"
+                    />
+                </div>
+
+                <div className={s.field}>
+                    <Text variant="body-2">Turi</Text>
+                    <Select
+                        value={[type]}
+                        onUpdate={([v]) => setValue('type', v, {shouldDirty: true})}
+                        options={[
+                            {value: 'juice', content: 'Sharbat'},
+                            {value: 'vitamin', content: 'Vitamin'},
+                        ]}
+                        disabled={isPending}
+                        size="l"
+                        width="max"
                     />
                 </div>
 

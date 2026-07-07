@@ -9,6 +9,11 @@ import {baseCdnUrl} from "@/services/config.js";
 import ConfirmDialog from "@/ui/components/confirm-dialog/index.jsx";
 import s from "./main.module.css";
 
+const TYPE_LABELS = {
+    juice: 'Sharbat',
+    vitamin: 'Vitamin',
+}
+
 const COLUMNS = (navigate, setDeletingId) => [
     {
         id: 'image',
@@ -27,6 +32,14 @@ const COLUMNS = (navigate, setDeletingId) => [
         name: 'Nomi',
         template: (catalog) => (
             <Text variant="body-2">{catalog.title}</Text>
+        ),
+    },
+    {
+        id: 'type',
+        name: 'Turi',
+        width: 100,
+        template: (catalog) => (
+            <Text variant="body-2" color="secondary">{TYPE_LABELS[catalog.type] ?? catalog.type}</Text>
         ),
     },
     {

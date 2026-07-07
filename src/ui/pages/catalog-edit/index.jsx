@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useLocation, useNavigate, useParams} from "react-router";
 import {useForm} from "react-hook-form";
-import {Button, Switch, Text, TextInput} from "@gravity-ui/uikit";
+import {Button, Select, Switch, Text, TextInput} from "@gravity-ui/uikit";
 import {useDeleteCatalog, useGetCatalog, useUpdateCatalog} from "@/services/catalog/query.js";
 import ConfirmDialog from "@/ui/components/confirm-dialog/index.jsx";
 import {useHeader} from "@/providers/header.jsx";
@@ -23,10 +23,16 @@ export default function CatalogEditPage() {
     const {data: catalogData} = useGetCatalog(catalogId, resourceLocale)
 
     const {handleSubmit, watch, setValue} = useForm({
-        defaultValues: {title: state?.catalog?.title ?? '', isActive: state?.catalog?.isActive ?? false, index: state?.catalog?.index ?? '', file: null}
+        defaultValues: {
+            title: state?.catalog?.title ?? '',
+            type: state?.catalog?.type ?? 'juice',
+            isActive: state?.catalog?.isActive ?? false,
+            index: state?.catalog?.index ?? '',
+            file: null,
+        }
     })
 
-    const [title, isActive, index, file] = watch(['title', 'isActive', 'index', 'file'])
+    const [title, type, isActive, index, file] = watch(['title', 'type', 'isActive', 'index', 'file'])
 
     useEffect(() => {
         setHeader({
@@ -38,6 +44,7 @@ export default function CatalogEditPage() {
     useEffect(() => {
         if (!catalogData) return
         setValue('title', catalogData.title ?? '', {shouldDirty: true})
+        setValue('type', catalogData.type ?? 'juice', {shouldDirty: true})
         setValue('isActive', catalogData.isActive ?? false, {shouldDirty: true})
         setValue('index', catalogData.index ?? '', {shouldDirty: true})
         setValue('file', null, {shouldDirty: true})
@@ -46,6 +53,7 @@ export default function CatalogEditPage() {
     const onSubmit = () => {
         const fd = new FormData()
         fd.append('title', title.trim())
+        fd.append('type', type)
         fd.append('isActive', String(isActive))
         if (index !== '') fd.append('index', Number(index))
         if (file) fd.append('file', file)
@@ -74,6 +82,21 @@ export default function CatalogEditPage() {
                         placeholder="Katalog nomi"
                         disabled={isPending}
                         size="l"
+                    />
+                </div>
+
+                <div className={s.field}>
+                    <Text variant="body-2">Turi</Text>
+                    <Select
+                        value={[type]}
+                        onUpdate={([v]) => setValue('type', v, {shouldDirty: true})}
+                        options={[
+                            {value: 'juice', content: 'Sharbat'},
+                            {value: 'vitamin', content: 'Vitamin'},
+                        ]}
+                        disabled={isPending}
+                        size="l"
+                        width="max"
                     />
                 </div>
 
