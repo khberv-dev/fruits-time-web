@@ -1,10 +1,12 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router";
-import {Label, Pagination, Table, Text} from "@gravity-ui/uikit";
+import {Button, Label, Pagination, Table, Text} from "@gravity-ui/uikit";
+import {TrashBin} from "@gravity-ui/icons";
 import dayjs from "dayjs";
-import {useGetAdminOrders} from "@/services/order/query.js";
+import {useCancelOrder, useGetAdminOrders} from "@/services/order/query.js";
 import {useHeader} from "@/providers/header.jsx";
 import {formatNumber, formatPhoneNumber} from "@/utils/lib.js";
+import ConfirmDialog from "@/ui/components/confirm-dialog/index.jsx";
 import s from "./main.module.css";
 
 const PAGE_SIZE = 20
@@ -26,7 +28,7 @@ const TYPE_LABEL = {
     delivery: 'Yetkazib berish',
 }
 
-const COLUMNS = [
+const COLUMNS = (setCancellingId) => [
     {
         id: 'date',
         name: 'Sana',
@@ -99,14 +101,32 @@ const COLUMNS = [
             )
         },
     },
+    {
+        id: 'actions',
+        name: '',
+        width: 56,
+        template: (order) => (
+            order.status === 'created' && (
+                <Button
+                    size="s"
+                    view="flat-danger"
+                    onClick={(e) => { e.stopPropagation(); setCancellingId(order.id) }}
+                >
+                    <Button.Icon><TrashBin/></Button.Icon>
+                </Button>
+            )
+        ),
+    },
 ]
 
 export default function OrdersPage() {
     const {setHeader} = useHeader()
     const navigate = useNavigate()
     const [page, setPage] = useState(1)
+    const [cancellingId, setCancellingId] = useState(null)
 
     const {data, isLoading} = useGetAdminOrders(page, PAGE_SIZE)
+    const {mutate: cancelOrder, isPending: isCancelling} = useCancelOrder()
 
     useEffect(() => {
         setHeader({title: 'Buyurtmalar'})
@@ -114,14 +134,16 @@ export default function OrdersPage() {
 
     return (
         <div className={s.root}>
-            <Table
-                width="max"
-                data={data?.data ?? []}
-                columns={COLUMNS}
-                getRowId={(order) => order.id}
-                onRowClick={(order) => navigate(`/orders/${order.id}`, {state: {order}})}
-                emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Buyurtmalar topilmadi'}
-            />
+            <div className={s.tableWrapper}>
+                <Table
+                    width="max"
+                    data={data?.data ?? []}
+                    columns={COLUMNS(setCancellingId)}
+                    getRowId={(order) => order.id}
+                    onRowClick={(order) => navigate(`/orders/${order.id}`, {state: {order}})}
+                    emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Buyurtmalar topilmadi'}
+                />
+            </div>
             {data?.total > PAGE_SIZE && (
                 <div className={s.pagination}>
                     <Pagination
@@ -132,6 +154,17 @@ export default function OrdersPage() {
                     />
                 </div>
             )}
+
+            <ConfirmDialog
+                open={!!cancellingId}
+                title="Buyurtmani bekor qilish"
+                description="Bu amalni ortga qaytarib bo'lmaydi. Davom etasizmi?"
+                confirmText="Bekor qilish"
+                cancelText="Yopish"
+                loading={isCancelling}
+                onConfirm={() => cancelOrder(cancellingId, {onSuccess: () => setCancellingId(null)})}
+                onClose={() => setCancellingId(null)}
+            />
         </div>
     )
 }
