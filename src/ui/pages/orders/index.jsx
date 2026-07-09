@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router";
-import {Button, Label, Pagination, Table, Text} from "@gravity-ui/uikit";
-import {TrashBin} from "@gravity-ui/icons";
+import {Button, DropdownMenu, Label, Pagination, Table, Text} from "@gravity-ui/uikit";
+import {EllipsisVertical, TrashBin} from "@gravity-ui/icons";
 import dayjs from "dayjs";
 import {useCancelOrder, useGetAdminOrders} from "@/services/order/query.js";
 import {useHeader} from "@/providers/header.jsx";
@@ -107,13 +107,24 @@ const COLUMNS = (setCancellingId) => [
         width: 56,
         template: (order) => (
             order.status === 'created' && (
-                <Button
-                    size="s"
-                    view="flat-danger"
-                    onClick={(e) => { e.stopPropagation(); setCancellingId(order.id) }}
-                >
-                    <Button.Icon><TrashBin/></Button.Icon>
-                </Button>
+                <div onClick={(e) => e.stopPropagation()}>
+                    <DropdownMenu
+                        size="s"
+                        renderSwitcher={(props) => (
+                            <Button {...props} size="s" view="flat">
+                                <Button.Icon><EllipsisVertical/></Button.Icon>
+                            </Button>
+                        )}
+                        items={[
+                            {
+                                text: 'Bekor qilish',
+                                icon: <TrashBin/>,
+                                theme: 'danger',
+                                action: () => setCancellingId(order.id),
+                            },
+                        ]}
+                    />
+                </div>
             )
         ),
     },
