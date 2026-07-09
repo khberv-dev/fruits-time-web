@@ -9,12 +9,14 @@ import s from "./main.module.css";
 
 const STATUS_THEME = {
     created: 'info',
+    accepted: 'utility',
     done: 'success',
     cancelled: 'danger',
 }
 
 const STATUS_LABEL = {
     created: 'Yangi',
+    accepted: 'Qabul qilindi',
     done: 'Bajarildi',
     cancelled: 'Bekor qilindi',
 }

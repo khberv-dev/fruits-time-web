@@ -13,12 +13,14 @@ const PAGE_SIZE = 20
 
 const STATUS_THEME = {
     created: 'info',
+    accepted: 'utility',
     done: 'success',
     cancelled: 'danger',
 }
 
 const STATUS_LABEL = {
     created: 'Yangi',
+    accepted: 'Qabul qilindi',
     done: 'Bajarildi',
     cancelled: 'Bekor qilindi',
 }
@@ -106,7 +108,7 @@ const COLUMNS = (setCancellingId) => [
         name: '',
         width: 56,
         template: (order) => (
-            order.status === 'created' && (
+            order.status !== 'cancelled' && order.status !== 'done' && (
                 <div onClick={(e) => e.stopPropagation()}>
                     <DropdownMenu
                         size="s"
