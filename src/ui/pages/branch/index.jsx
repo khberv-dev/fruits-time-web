@@ -104,13 +104,15 @@ export default function BranchPage() {
                     Sinxronlashtirish
                 </Button>
             </div>
-            <Table
-                width="max"
-                data={branches}
-                columns={COLUMNS(navigate)}
-                getRowId={(b) => b.id}
-                emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Filiallar topilmadi'}
-            />
+            <div className={s.tableWrapper}>
+                <Table
+                    width="max"
+                    data={branches}
+                    columns={COLUMNS(navigate)}
+                    getRowId={(b) => b.id}
+                    emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Filiallar topilmadi'}
+                />
+            </div>
         </div>
     )
 }

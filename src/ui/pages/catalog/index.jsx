@@ -117,14 +117,16 @@ export default function CatalogPage() {
                     Katalog qo'shish
                 </Button>
             </div>
-            <Table
-                width="max"
-                data={catalogs}
-                columns={COLUMNS(navigate, setDeletingId)}
-                getRowId={(c) => c.id}
-                onRowClick={(c) => navigate(`/catalog/${c.id}/product`, {state: {catalogTitle: c.title}})}
-                emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Kataloglar topilmadi'}
-            />
+            <div className={s.tableWrapper}>
+                <Table
+                    width="max"
+                    data={catalogs}
+                    columns={COLUMNS(navigate, setDeletingId)}
+                    getRowId={(c) => c.id}
+                    onRowClick={(c) => navigate(`/catalog/${c.id}/product`, {state: {catalogTitle: c.title}})}
+                    emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Kataloglar topilmadi'}
+                />
+            </div>
 
             <ConfirmDialog
                 open={!!deletingId}

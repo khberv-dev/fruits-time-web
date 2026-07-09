@@ -86,13 +86,15 @@ export default function BannerPage() {
                     Banner qo'shish
                 </Button>
             </div>
-            <Table
-                width="max"
-                data={banners}
-                columns={COLUMNS(navigate)}
-                getRowId={(b) => b.id}
-                emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Bannerlar topilmadi'}
-            />
+            <div className={s.tableWrapper}>
+                <Table
+                    width="max"
+                    data={banners}
+                    columns={COLUMNS(navigate)}
+                    getRowId={(b) => b.id}
+                    emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Bannerlar topilmadi'}
+                />
+            </div>
         </div>
     )
 }

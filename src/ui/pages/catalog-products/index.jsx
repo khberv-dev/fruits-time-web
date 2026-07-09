@@ -125,13 +125,15 @@ export default function CatalogProductsPage() {
                     Mahsulot qo'shish
                 </Button>
             </div>
-            <Table
-                width="max"
-                data={products}
-                columns={COLUMNS(catalogId, navigate, setDeletingId)}
-                getRowId={(p) => p.id}
-                emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Mahsulotlar topilmadi'}
-            />
+            <div className={s.tableWrapper}>
+                <Table
+                    width="max"
+                    data={products}
+                    columns={COLUMNS(catalogId, navigate, setDeletingId)}
+                    getRowId={(p) => p.id}
+                    emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Mahsulotlar topilmadi'}
+                />
+            </div>
 
             <ConfirmDialog
                 open={!!deletingId}
