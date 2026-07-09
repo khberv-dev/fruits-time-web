@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import {useNavigate} from "react-router";
 import {useForm} from "react-hook-form";
-import {Button, Text, TextInput} from "@gravity-ui/uikit";
+import {Button, Switch, Text, TextInput} from "@gravity-ui/uikit";
 import {useCreateBanner} from "@/services/banner/query.js";
 import {useHeader} from "@/providers/header.jsx";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
@@ -15,10 +15,10 @@ export default function BannerCreatePage() {
     const {setHeader} = useHeader()
 
     const {handleSubmit, watch, setValue} = useForm({
-        defaultValues: {title: '', content: '', file: null, thumbnail: null}
+        defaultValues: {title: '', content: '', file: null, thumbnail: null, popup: false}
     })
 
-    const [title, content, file, thumbnail] = watch(['title', 'content', 'file', 'thumbnail'])
+    const [title, content, file, thumbnail, popup] = watch(['title', 'content', 'file', 'thumbnail', 'popup'])
 
     useEffect(() => {
         setHeader({
@@ -33,6 +33,7 @@ export default function BannerCreatePage() {
         fd.append('content', content.trim())
         if (file) fd.append('file', file)
         if (thumbnail) fd.append('thumbnail', thumbnail)
+        fd.append('popup', String(popup))
 
         createBanner(
             {data: fd, locale: resourceLocale},
@@ -77,6 +78,15 @@ export default function BannerCreatePage() {
                         onChange={(e) => setValue('content', e.target.value)}
                         placeholder="Banner matni"
                         rows={4}
+                        disabled={isPending}
+                    />
+                </div>
+
+                <div className={s.activeRow}>
+                    <Text variant="body-2">Popup sifatida ko'rsatish</Text>
+                    <Switch
+                        checked={popup}
+                        onUpdate={(v) => setValue('popup', v, {shouldDirty: true})}
                         disabled={isPending}
                     />
                 </div>

@@ -64,6 +64,19 @@ const COLUMNS = (catalogId, navigate, setDeletingId) => [
         ),
     },
     {
+        id: 'promotions',
+        name: 'Aksiya',
+        template: (product) => (
+            product.promotions?.length > 0 && (
+                <div className={s.promotions}>
+                    {product.promotions.map((promo) => (
+                        <Label key={promo.type} theme="warning" size="s">{promo.name}</Label>
+                    ))}
+                </div>
+            )
+        ),
+    },
+    {
         id: 'createdAt',
         name: 'Sana',
         width: 120,

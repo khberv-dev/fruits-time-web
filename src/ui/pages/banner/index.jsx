@@ -46,6 +46,14 @@ const COLUMNS = (navigate) => [
         ),
     },
     {
+        id: 'popup',
+        name: 'Popup',
+        width: 80,
+        template: (banner) => (
+            banner.popup && <Label theme="info" size="s">Popup</Label>
+        ),
+    },
+    {
         id: 'createdAt',
         name: 'Sana',
         width: 120,

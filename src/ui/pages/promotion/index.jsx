@@ -22,7 +22,7 @@ const PROMOTION_INFO = {
     },
     free_delivery_3km: {
         title: 'Yetkazib berish chegirmasi',
-        description: "Yetkazib berish narxidan 22 000 so'm chegirma qilinadi",
+        description: "Birinchi muvaffaqiyatli buyurtmadan keyin yetkazib berish narxidan 15 000 so'm chegirma qilinadi",
     },
 }
 

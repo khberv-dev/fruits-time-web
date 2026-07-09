@@ -24,12 +24,13 @@ export default function BannerEditPage() {
             title: state?.banner?.title ?? '',
             content: state?.banner?.content ?? '',
             isActive: state?.banner?.isActive ?? false,
+            popup: state?.banner?.popup ?? false,
             file: null,
             thumbnail: null,
         }
     })
 
-    const [title, content, isActive, file, thumbnail] = watch(['title', 'content', 'isActive', 'file', 'thumbnail'])
+    const [title, content, isActive, popup, file, thumbnail] = watch(['title', 'content', 'isActive', 'popup', 'file', 'thumbnail'])
 
     useEffect(() => {
         setHeader({
@@ -43,6 +44,7 @@ export default function BannerEditPage() {
         setValue('title', bannerData.title ?? '', {shouldDirty: true})
         setValue('content', bannerData.content ?? '', {shouldDirty: true})
         setValue('isActive', bannerData.isActive ?? false, {shouldDirty: true})
+        setValue('popup', bannerData.popup ?? false, {shouldDirty: true})
         setValue('file', null, {shouldDirty: true})
         setValue('thumbnail', null, {shouldDirty: true})
     }, [bannerData])
@@ -52,6 +54,7 @@ export default function BannerEditPage() {
         fd.append('title', title.trim())
         fd.append('content', content.trim())
         fd.append('isActive', String(isActive))
+        fd.append('popup', String(popup))
         if (file) fd.append('file', file)
         if (thumbnail) fd.append('thumbnail', thumbnail)
 
@@ -112,6 +115,15 @@ export default function BannerEditPage() {
                     <Switch
                         checked={isActive}
                         onUpdate={(v) => setValue('isActive', v, {shouldDirty: true})}
+                        disabled={isPending}
+                    />
+                </div>
+
+                <div className={s.activeRow}>
+                    <Text variant="body-2">Popup sifatida ko'rsatish</Text>
+                    <Switch
+                        checked={popup}
+                        onUpdate={(v) => setValue('popup', v, {shouldDirty: true})}
                         disabled={isPending}
                     />
                 </div>
