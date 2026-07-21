@@ -7,6 +7,8 @@ import {useDeleteCatalog, useGetAllCatalogs} from "@/services/catalog/query.js";
 import {useHeader} from "@/providers/header.jsx";
 import {baseCdnUrl} from "@/services/config.js";
 import ConfirmDialog from "@/ui/components/confirm-dialog/index.jsx";
+import SearchInput from "@/ui/components/search-input/index.jsx";
+import ListPagination from "@/ui/components/list-pagination/index.jsx";
 import s from "./main.module.css";
 
 const TYPE_LABELS = {
@@ -95,7 +97,11 @@ const COLUMNS = (navigate, setDeletingId) => [
 
 export default function CatalogPage() {
     const navigate = useNavigate()
-    const {data: catalogs = [], isLoading} = useGetAllCatalogs()
+    const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(20)
+    const [search, setSearch] = useState('')
+    const {data, isLoading} = useGetAllCatalogs({page, pageSize, search: search || undefined})
+    const {catalogs = [], total = 0} = data ?? {}
     const {mutate: deleteCatalog, isPending: isDeleting} = useDeleteCatalog()
     const {setHeader} = useHeader()
 
@@ -105,17 +111,23 @@ export default function CatalogPage() {
         setHeader({title: 'Kataloglar'})
     }, [])
 
+    const handleSearch = (value) => {
+        setSearch(value)
+        setPage(1)
+    }
+
     const handleDelete = () => {
         deleteCatalog(deletingId, {onSuccess: () => setDeletingId(null)})
     }
 
     return (
         <div className={s.root}>
-            <div>
+            <div className={s.toolbar}>
                 <Button view="action" size="l" onClick={() => navigate('/catalog/create')}>
                     <Button.Icon><Plus/></Button.Icon>
                     Katalog qo'shish
                 </Button>
+                <SearchInput value={search} onUpdate={handleSearch} placeholder="Katalog qidirish..."/>
             </div>
             <div className={s.tableWrapper}>
                 <Table
@@ -127,6 +139,13 @@ export default function CatalogPage() {
                     emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Kataloglar topilmadi'}
                 />
             </div>
+
+            <ListPagination
+                page={page}
+                pageSize={pageSize}
+                total={total}
+                onUpdate={(nextPage, nextPageSize) => { setPage(nextPage); setPageSize(nextPageSize) }}
+            />
 
             <ConfirmDialog
                 open={!!deletingId}

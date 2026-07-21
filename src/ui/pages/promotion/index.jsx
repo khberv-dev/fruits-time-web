@@ -1,7 +1,7 @@
 import {useEffect} from "react";
 import {Select, Switch, Text} from "@gravity-ui/uikit";
 import {useGetAllPromotions, useUpdatePromotion} from "@/services/promotion/query.js";
-import {useGetAllCatalogs} from "@/services/catalog/query.js";
+import {useGetAllCatalogsList} from "@/services/catalog/query.js";
 import {useGetAllProductsAcrossCatalogs} from "@/services/product/query.js";
 import {useHeader} from "@/providers/header.jsx";
 import s from "./main.module.css";
@@ -28,7 +28,7 @@ const PROMOTION_INFO = {
 
 export default function PromotionPage() {
     const {data: promotions = [], isLoading} = useGetAllPromotions()
-    const {data: catalogs = []} = useGetAllCatalogs()
+    const {data: catalogs = []} = useGetAllCatalogsList()
     const {data: products = []} = useGetAllProductsAcrossCatalogs(catalogs.map((c) => c.id))
     const {mutate: updatePromotion, isPending} = useUpdatePromotion()
     const {setHeader} = useHeader()

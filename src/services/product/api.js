@@ -1,13 +1,28 @@
 import {api} from "@/services/api.js";
 
-export async function getAllProducts(catalogId, locale) {
-    const res = await api.get(`catalog/${catalogId}/product/all`, {params: {locale}})
+export async function getAllProducts(catalogId, locale, {page = 1, pageSize = 20, search} = {}) {
+    const res = await api.get(`catalog/${catalogId}/product/all`, {params: {locale, page, pageSize, search}})
     return res.data
 }
 
+export async function getAllProductsList(catalogId, locale) {
+    const pageSize = 50
+    let page = 1
+    let all = []
+
+    while (true) {
+        const {products, pages} = await getAllProducts(catalogId, locale, {page, pageSize})
+        all = all.concat(products)
+        if (page >= pages) break
+        page++
+    }
+
+    return all
+}
+
 export async function getProduct(catalogId, productId, locale) {
-    const res = await api.get(`catalog/${catalogId}/product/all`, {params: {locale}})
-    return res.data.find((p) => String(p.id) === String(productId)) ?? null
+    const products = await getAllProductsList(catalogId, locale)
+    return products.find((p) => String(p.id) === String(productId)) ?? null
 }
 
 export async function createProduct(catalogId, data, locale) {

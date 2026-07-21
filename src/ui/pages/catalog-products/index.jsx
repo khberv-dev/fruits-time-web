@@ -8,6 +8,8 @@ import {useHeader} from "@/providers/header.jsx";
 import {baseCdnUrl} from "@/services/config.js";
 import {formatNumber} from "@/utils/lib.js";
 import ConfirmDialog from "@/ui/components/confirm-dialog/index.jsx";
+import SearchInput from "@/ui/components/search-input/index.jsx";
+import ListPagination from "@/ui/components/list-pagination/index.jsx";
 import s from "./main.module.css";
 
 const TYPE_LABEL = {
@@ -113,7 +115,11 @@ export default function CatalogProductsPage() {
     const {catalogId} = useParams()
     const {state} = useLocation()
     const navigate = useNavigate()
-    const {data: products = [], isLoading} = useGetAllProducts(catalogId)
+    const [page, setPage] = useState(1)
+    const [pageSize, setPageSize] = useState(20)
+    const [search, setSearch] = useState('')
+    const {data, isLoading} = useGetAllProducts(catalogId, {page, pageSize, search: search || undefined})
+    const {products = [], total = 0} = data ?? {}
     const {mutate: deleteProduct, isPending: isDeleting} = useDeleteProduct()
     const {setHeader} = useHeader()
 
@@ -126,17 +132,23 @@ export default function CatalogProductsPage() {
         })
     }, [state?.catalogTitle])
 
+    const handleSearch = (value) => {
+        setSearch(value)
+        setPage(1)
+    }
+
     const handleDelete = () => {
         deleteProduct({catalogId, productId: deletingId}, {onSuccess: () => setDeletingId(null)})
     }
 
     return (
         <div className={s.root}>
-            <div>
+            <div className={s.toolbar}>
                 <Button view="action" size="l" onClick={() => navigate(`/catalog/${catalogId}/product/create`)}>
                     <Button.Icon><Plus/></Button.Icon>
                     Mahsulot qo'shish
                 </Button>
+                <SearchInput value={search} onUpdate={handleSearch} placeholder="Mahsulot qidirish..."/>
             </div>
             <div className={s.tableWrapper}>
                 <Table
@@ -147,6 +159,13 @@ export default function CatalogProductsPage() {
                     emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Mahsulotlar topilmadi'}
                 />
             </div>
+
+            <ListPagination
+                page={page}
+                pageSize={pageSize}
+                total={total}
+                onUpdate={(nextPage, nextPageSize) => { setPage(nextPage); setPageSize(nextPageSize) }}
+            />
 
             <ConfirmDialog
                 open={!!deletingId}

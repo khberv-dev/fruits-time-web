@@ -1,14 +1,31 @@
-import {useQuery} from "@tanstack/react-query";
-import {createCatalog, deleteCatalog, getAllCatalogs, getCatalog, updateCatalog} from "@/services/catalog/api.js";
+import {keepPreviousData, useQuery} from "@tanstack/react-query";
+import {
+    createCatalog,
+    deleteCatalog,
+    getAllCatalogs,
+    getAllCatalogsList,
+    getCatalog,
+    updateCatalog,
+} from "@/services/catalog/api.js";
 import {useInfoMutation} from "@/services/query.js";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
 
-export const useGetAllCatalogs = () => {
+export const useGetAllCatalogs = ({page = 1, pageSize = 20, search} = {}) => {
     const {resourceLocale} = useResourceLocale()
 
     return useQuery({
-        queryKey: ['catalog', 'all', resourceLocale],
-        queryFn: () => getAllCatalogs(resourceLocale),
+        queryKey: ['catalog', 'all', resourceLocale, page, pageSize, search],
+        queryFn: () => getAllCatalogs(resourceLocale, {page, pageSize, search}),
+        placeholderData: keepPreviousData,
+    })
+}
+
+export const useGetAllCatalogsList = () => {
+    const {resourceLocale} = useResourceLocale()
+
+    return useQuery({
+        queryKey: ['catalog', 'all-list', resourceLocale],
+        queryFn: () => getAllCatalogsList(resourceLocale),
     })
 }
 
