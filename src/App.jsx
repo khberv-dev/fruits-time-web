@@ -22,6 +22,10 @@ import BranchEditPage from "@/ui/pages/branch-edit/index.jsx";
 import OrderDetailPage from "@/ui/pages/order-detail/index.jsx"
 import AdvisorPage from "@/ui/pages/advisor/index.jsx"
 import PromotionPage from "@/ui/pages/promotion/index.jsx";
+import SubscriptionPage from "@/ui/pages/subscription/index.jsx";
+import SubscriptionCreatePage from "@/ui/pages/subscription-create/index.jsx";
+import SubscriptionEditPage from "@/ui/pages/subscription-edit/index.jsx";
+import SubscriptionCodesPage from "@/ui/pages/subscription-codes/index.jsx";
 import SettingsPage from "@/ui/pages/settings/index.jsx";
 
 const RequireAuth = ({children}) => {
@@ -59,6 +63,11 @@ function App() {
                                     <Route path="/branch/:branchId/edit" element={<BranchEditPage/>}/>
                                     <Route path="/advisor" element={<AdvisorPage/>}/>
                                     <Route path="/promotion" element={<PromotionPage/>}/>
+                                    <Route path="/subscription" element={<SubscriptionPage/>}/>
+                                    <Route path="/subscription/create" element={<SubscriptionCreatePage/>}/>
+                                    <Route path="/subscription/:subscriptionId/edit" element={<SubscriptionEditPage/>}/>
+                                    <Route path="/subscription/:subscriptionId/codes"
+                                           element={<SubscriptionCodesPage/>}/>
                                     <Route path="/settings" element={<SettingsPage/>}/>
                                 </Route>
                             </Routes>
