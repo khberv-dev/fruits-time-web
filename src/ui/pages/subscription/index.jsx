@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import {useGetAllSubscriptions} from "@/services/subscription/query.js";
 import {useHeader} from "@/providers/header.jsx";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
-import {pickLocale} from "@/utils/lib.js";
+import {formatNumber, pickLocale} from "@/utils/lib.js";
 import s from "./main.module.css";
 
 const COLUMNS = (navigate, locale) => [
@@ -22,9 +22,19 @@ const COLUMNS = (navigate, locale) => [
         },
     },
     {
+        id: 'discountAmount',
+        name: 'Kunlik chegirma',
+        width: 160,
+        template: (subscription) => (
+            <Text variant="body-2" whiteSpace="nowrap">
+                {formatNumber(subscription.discountAmount ?? 0)} UZS
+            </Text>
+        ),
+    },
+    {
         id: 'products',
         name: 'Mahsulotlar',
-        width: 140,
+        width: 120,
         template: (subscription) => (
             <Text variant="body-2" color="secondary">
                 {subscription.productIds?.length ?? 0} ta

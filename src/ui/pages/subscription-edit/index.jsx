@@ -8,7 +8,7 @@ import {useGetAllCatalogsList} from "@/services/catalog/query.js";
 import {useGetAllProductsAcrossCatalogs} from "@/services/product/query.js";
 import {useHeader} from "@/providers/header.jsx";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
-import {pickLocale} from "@/utils/lib.js";
+import {extractDigits, formatNumber, pickLocale} from "@/utils/lib.js";
 import s from "./main.module.css";
 
 export default function SubscriptionEditPage() {
@@ -30,11 +30,12 @@ export default function SubscriptionEditPage() {
             // selected in the header, and only that locale is written back.
             title: pickLocale(state?.subscription?.title, resourceLocale),
             productIds: state?.subscription?.productIds ?? [],
+            discountAmount: state?.subscription?.discountAmount ?? '',
             isActive: state?.subscription?.isActive ?? false,
         }
     })
 
-    const [title, productIds, isActive] = watch(['title', 'productIds', 'isActive'])
+    const [title, productIds, discountAmount, isActive] = watch(['title', 'productIds', 'discountAmount', 'isActive'])
 
     useEffect(() => {
         setHeader({
@@ -47,6 +48,7 @@ export default function SubscriptionEditPage() {
         if (!subscription) return
         setValue('title', subscription.title?.[resourceLocale] ?? '', {shouldDirty: true})
         setValue('productIds', subscription.productIds ?? [], {shouldDirty: true})
+        setValue('discountAmount', subscription.discountAmount ?? '', {shouldDirty: true})
         setValue('isActive', subscription.isActive ?? false, {shouldDirty: true})
     }, [subscription, resourceLocale])
 
@@ -55,7 +57,12 @@ export default function SubscriptionEditPage() {
             {
                 subscriptionId,
                 // An empty title is left out so the other locales' titles stay untouched.
-                data: {...(title.trim() && {title: title.trim()}), productIds, isActive},
+                data: {
+                    ...(title.trim() && {title: title.trim()}),
+                    productIds,
+                    discountAmount: Number(extractDigits(String(discountAmount))),
+                    isActive,
+                },
                 locale: resourceLocale,
             },
             {onSuccess: () => navigate('/subscription')}
@@ -91,7 +98,23 @@ export default function SubscriptionEditPage() {
                         size="l"
                     />
                     <Text variant="caption-2" color="hint">
-                        Obunachi tanlangan har bir mahsulotdan kuniga 1 tadan bepul oladi
+                        Kunlik chegirma faqat shu mahsulotlarga ishlatiladi
+                    </Text>
+                </div>
+
+                <div className={s.field}>
+                    <Text variant="body-2">Kunlik chegirma</Text>
+                    <TextInput
+                        value={discountAmount !== '' ? formatNumber(extractDigits(String(discountAmount))) : ''}
+                        onUpdate={(v) => setValue('discountAmount', extractDigits(v), {shouldDirty: true})}
+                        placeholder="0"
+                        endContent={<Text variant="body-2" color="hint">UZS</Text>}
+                        disabled={isPending}
+                        size="l"
+                    />
+                    <Text variant="caption-2" color="hint">
+                        Obunachi kuniga tanlangan mahsulotlardan jami shu summagacha chegirma oladi. Yangi summa
+                        keyingi buyurtmadan boshlab ishlaydi.
                     </Text>
                 </div>
 
@@ -124,7 +147,7 @@ export default function SubscriptionEditPage() {
                         view="action"
                         size="l"
                         loading={isPending}
-                        disabled={productIds.length === 0}
+                        disabled={productIds.length === 0 || discountAmount === ''}
                     >
                         Saqlash
                     </Button>

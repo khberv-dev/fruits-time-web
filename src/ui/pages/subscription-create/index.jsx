@@ -7,6 +7,7 @@ import {useGetAllCatalogsList} from "@/services/catalog/query.js";
 import {useGetAllProductsAcrossCatalogs} from "@/services/product/query.js";
 import {useHeader} from "@/providers/header.jsx";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
+import {extractDigits, formatNumber} from "@/utils/lib.js";
 import s from "./main.module.css";
 
 export default function SubscriptionCreatePage() {
@@ -18,10 +19,10 @@ export default function SubscriptionCreatePage() {
     const {setHeader} = useHeader()
 
     const {handleSubmit, watch, setValue} = useForm({
-        defaultValues: {title: '', productIds: [], isActive: true}
+        defaultValues: {title: '', productIds: [], discountAmount: '', isActive: true}
     })
 
-    const [title, productIds, isActive] = watch(['title', 'productIds', 'isActive'])
+    const [title, productIds, discountAmount, isActive] = watch(['title', 'productIds', 'discountAmount', 'isActive'])
 
     useEffect(() => {
         setHeader({
@@ -32,7 +33,15 @@ export default function SubscriptionCreatePage() {
 
     const onSubmit = () => {
         createSubscription(
-            {data: {title: title.trim(), productIds, isActive}, locale: resourceLocale},
+            {
+                data: {
+                    title: title.trim(),
+                    productIds,
+                    discountAmount: Number(extractDigits(String(discountAmount))),
+                    isActive,
+                },
+                locale: resourceLocale,
+            },
             {onSuccess: () => navigate('/subscription')}
         )
     }
@@ -66,7 +75,23 @@ export default function SubscriptionCreatePage() {
                         size="l"
                     />
                     <Text variant="caption-2" color="hint">
-                        Obunachi tanlangan har bir mahsulotdan kuniga 1 tadan bepul oladi
+                        Kunlik chegirma faqat shu mahsulotlarga ishlatiladi
+                    </Text>
+                </div>
+
+                <div className={s.field}>
+                    <Text variant="body-2">Kunlik chegirma</Text>
+                    <TextInput
+                        value={discountAmount ? formatNumber(extractDigits(String(discountAmount))) : ''}
+                        onUpdate={(v) => setValue('discountAmount', extractDigits(v), {shouldDirty: true})}
+                        placeholder="0"
+                        endContent={<Text variant="body-2" color="hint">UZS</Text>}
+                        disabled={isPending}
+                        size="l"
+                    />
+                    <Text variant="caption-2" color="hint">
+                        Obunachi kuniga tanlangan mahsulotlardan jami shu summagacha chegirma oladi. Undan ortiq
+                        qismi to'liq to'lanadi va boshqa mahsulotlarga o'tmaydi.
                     </Text>
                 </div>
 
@@ -85,7 +110,7 @@ export default function SubscriptionCreatePage() {
                         view="action"
                         size="l"
                         loading={isPending}
-                        disabled={!title.trim() || productIds.length === 0}
+                        disabled={!title.trim() || productIds.length === 0 || discountAmount === ''}
                     >
                         Yaratish
                     </Button>
