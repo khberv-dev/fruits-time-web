@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router";
-import {Button, ClipboardButton, Label, NumberInput, Table, Text} from "@gravity-ui/uikit";
-import {Plus} from "@gravity-ui/icons";
+import {Button, ClipboardButton, Dialog, Label, NumberInput, Table, Text} from "@gravity-ui/uikit";
+import {Plus, QrCode as QrCodeIcon} from "@gravity-ui/icons";
 import dayjs from "dayjs";
 import {
     useGenerateSubscriptionCodes,
@@ -11,9 +11,10 @@ import {
 import {useHeader} from "@/providers/header.jsx";
 import {useResourceLocale} from "@/providers/resource-locale.jsx";
 import {formatPhoneNumber, pickLocale} from "@/utils/lib.js";
+import QrCode from "@/ui/components/qr-code/index.jsx";
 import s from "./main.module.css";
 
-const COLUMNS = [
+const COLUMNS = (setQrEntry) => [
     {
         id: 'code',
         name: 'Kod',
@@ -76,6 +77,20 @@ const COLUMNS = [
             </Text>
         ),
     },
+    {
+        id: 'actions',
+        name: '',
+        width: 56,
+        template: (entry) => (
+            <Button
+                size="s"
+                view="flat"
+                onClick={(e) => { e.stopPropagation(); setQrEntry(entry) }}
+            >
+                <Button.Icon><QrCodeIcon/></Button.Icon>
+            </Button>
+        ),
+    },
 ]
 
 export default function SubscriptionCodesPage() {
@@ -88,6 +103,7 @@ export default function SubscriptionCodesPage() {
     const {setHeader} = useHeader()
 
     const [count, setCount] = useState(10)
+    const [qrEntry, setQrEntry] = useState(null)
 
     const title = pickLocale(subscription?.title, resourceLocale)
     const unredeemed = codes.filter((entry) => !entry.user)
@@ -148,11 +164,33 @@ export default function SubscriptionCodesPage() {
                 <Table
                     width="max"
                     data={codes}
-                    columns={COLUMNS}
+                    columns={COLUMNS(setQrEntry)}
                     getRowId={(entry) => entry.id}
                     emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Kodlar topilmadi'}
                 />
             </div>
+
+            <Dialog open={!!qrEntry} onClose={() => setQrEntry(null)} size="s">
+                <Dialog.Header title="QR kod"/>
+                <Dialog.Body>
+                    {qrEntry && (
+                        <div className={s.qrBody}>
+                            {/* The QR carries the bare code, which is what the redeem endpoint expects. */}
+                            <QrCode value={qrEntry.code} downloadName={`obuna-kodi-${qrEntry.code.slice(0, 8)}`}/>
+                            <div className={s.codeCell}>
+                                <Text variant="code-1">{qrEntry.code}</Text>
+                                <ClipboardButton
+                                    text={qrEntry.code}
+                                    size="s"
+                                    view="flat"
+                                    tooltipInitialText="Nusxalash"
+                                    tooltipSuccessText="Nusxalandi"
+                                />
+                            </div>
+                        </div>
+                    )}
+                </Dialog.Body>
+            </Dialog>
         </div>
     )
 }
