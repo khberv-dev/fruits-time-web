@@ -83,6 +83,27 @@ export default function OrderDetailPage() {
                     </div>
                 </Card>
 
+                <Card className={s.card} view="outlined">
+                    <Text variant="subheader-2">Filial</Text>
+                    <div className={s.infoRows}>
+                        {order.branch ? (
+                            <>
+                                <div className={s.infoRow}>
+                                    <Text variant="body-2" color="secondary">Nomi</Text>
+                                    <Text variant="body-2">{order.branch.name}</Text>
+                                </div>
+                                <div className={s.infoRow}>
+                                    <Text variant="body-2" color="secondary">Manzil</Text>
+                                    <Text variant="body-2">{order.branch.address ?? '—'}</Text>
+                                </div>
+                            </>
+                        ) : (
+                            // Orders placed before the API started recording the branch.
+                            <Text variant="body-2" color="hint">Ma'lumot yo'q</Text>
+                        )}
+                    </div>
+                </Card>
+
                 {order.type === 'delivery' && (
                     <Card className={s.card} view="outlined">
                         <Text variant="subheader-2">Yetkazib berish</Text>

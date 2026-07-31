@@ -59,6 +59,16 @@ const COLUMNS = (setCancellingId) => [
         ),
     },
     {
+        id: 'branch',
+        name: 'Filial',
+        template: (order) => (
+            // Null on orders placed before the API started recording the branch.
+            order.branch
+                ? <Text variant="body-2">{order.branch.name}</Text>
+                : <Text variant="body-2" color="hint">—</Text>
+        ),
+    },
+    {
         id: 'posId',
         name: 'POS',
         template: (order) => (
