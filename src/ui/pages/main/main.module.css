@@ -26,7 +26,33 @@
 }
 
 .charts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+}
+
+.activity {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    align-items: start;
+}
+
+.rowMain {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 2px;
+    min-width: 0;
+}
+
+.rowTitle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.rowSide {
+    text-align: right;
+    flex-shrink: 0;
 }

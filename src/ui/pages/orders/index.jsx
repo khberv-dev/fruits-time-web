@@ -30,7 +30,7 @@ const TYPE_LABEL = {
     delivery: 'Yetkazib berish',
 }
 
-const COLUMNS = (setCancellingId) => [
+const COLUMNS = (setCancellingId, navigate) => [
     {
         id: 'date',
         name: 'Sana',
@@ -78,9 +78,18 @@ const COLUMNS = (setCancellingId) => [
     {
         id: 'user',
         name: 'Mijoz',
+        // Opens the customer's page, where all of their orders are listed. The row click
+        // behind it goes to this order, so the cell has to swallow the event.
         template: (order) => (
-            <div>
-                <Text as="div" variant="body-2">{order.user?.firstName ?? '—'}</Text>
+            <div
+                className={order.user?.id ? s.userLink : undefined}
+                onClick={order.user?.id
+                    ? (e) => { e.stopPropagation(); navigate(`/users/${order.user.id}`) }
+                    : undefined}
+            >
+                <Text as="div" variant="body-2" color={order.user?.id ? 'info' : undefined}>
+                    {order.user?.firstName ?? '—'}
+                </Text>
                 <Text as="div" variant="caption-2" color="hint">
                     {order.user?.phoneNumber ? formatPhoneNumber(order.user.phoneNumber) : '—'}
                 </Text>
@@ -161,7 +170,7 @@ export default function OrdersPage() {
                 <Table
                     width="max"
                     data={data?.data ?? []}
-                    columns={COLUMNS(setCancellingId)}
+                    columns={COLUMNS(setCancellingId, navigate)}
                     getRowId={(order) => order.id}
                     onRowClick={(order) => navigate(`/orders/${order.id}`, {state: {order}})}
                     emptyMessage={isLoading ? 'Yuklanmoqda...' : 'Buyurtmalar topilmadi'}

@@ -1,12 +1,23 @@
 .root {
-    padding: 20px 24px;
+    padding: 16px 16px 8px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
 }
 
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.heading {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.total {
+    line-height: 1.1;
 }

@@ -1,6 +1,7 @@
 import {useEffect} from "react";
 import {useLocation, useNavigate} from "react-router";
-import {Card, Label, Text} from "@gravity-ui/uikit";
+import {Button, Card, Label, Text} from "@gravity-ui/uikit";
+import {ChevronRight} from "@gravity-ui/icons";
 import dayjs from "dayjs";
 import {useHeader} from "@/providers/header.jsx";
 import {formatNumber, formatPhoneNumber} from "@/utils/lib.js";
@@ -68,7 +69,15 @@ export default function OrderDetailPage() {
 
             <div className={s.columns}>
                 <Card className={s.card} view="outlined">
-                    <Text variant="subheader-2">Mijoz</Text>
+                    <div className={s.cardHeader}>
+                        <Text variant="subheader-2">Mijoz</Text>
+                        {order.user?.id && (
+                            <Button view="flat" size="s" onClick={() => navigate(`/users/${order.user.id}`)}>
+                                Buyurtmalari
+                                <Button.Icon><ChevronRight/></Button.Icon>
+                            </Button>
+                        )}
+                    </div>
                     <div className={s.infoRows}>
                         <div className={s.infoRow}>
                             <Text variant="body-2" color="secondary">Ism</Text>

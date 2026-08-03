@@ -22,6 +22,8 @@ import BranchEditPage from "@/ui/pages/branch-edit/index.jsx";
 import OrderDetailPage from "@/ui/pages/order-detail/index.jsx"
 import AdvisorPage from "@/ui/pages/advisor/index.jsx"
 import PromotionPage from "@/ui/pages/promotion/index.jsx";
+import UsersPage from "@/ui/pages/users/index.jsx";
+import UserDetailPage from "@/ui/pages/user-detail/index.jsx";
 import SubscriptionPage from "@/ui/pages/subscription/index.jsx";
 import SubscriptionCreatePage from "@/ui/pages/subscription-create/index.jsx";
 import SubscriptionEditPage from "@/ui/pages/subscription-edit/index.jsx";
@@ -56,6 +58,8 @@ function App() {
                                            element={<ProductEditPage/>}/>
                                     <Route path="/orders" element={<OrdersPage/>}/>
                                     <Route path="/orders/:orderId" element={<OrderDetailPage/>}/>
+                                    <Route path="/users" element={<UsersPage/>}/>
+                                    <Route path="/users/:userId" element={<UserDetailPage/>}/>
                                     <Route path="/banner" element={<BannerPage/>}/>
                                     <Route path="/banner/create" element={<BannerCreatePage/>}/>
                                     <Route path="/banner/:bannerId/edit" element={<BannerEditPage/>}/>

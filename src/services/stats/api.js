@@ -5,6 +5,11 @@ export async function getStats() {
     return res.data
 }
 
+export async function getRecentActivity(locale) {
+    const res = await api.get('stats/recent', {params: {locale}})
+    return res.data
+}
+
 export async function getUsersTrend(startDate, endDate) {
     const res = await api.get('stats/users-trend', {params: {startDate, endDate}})
     return res.data

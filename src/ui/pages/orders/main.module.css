@@ -10,6 +10,15 @@
     gap: 2px;
 }
 
+.userLink {
+    cursor: pointer;
+    width: fit-content;
+}
+
+.userLink:hover {
+    text-decoration: underline;
+}
+
 .pagination {
     display: flex;
     justify-content: center;
