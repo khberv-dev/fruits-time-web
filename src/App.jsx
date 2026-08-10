@@ -25,6 +25,7 @@ import PromotionPage from "@/ui/pages/promotion/index.jsx";
 import UsersPage from "@/ui/pages/users/index.jsx";
 import UserDetailPage from "@/ui/pages/user-detail/index.jsx";
 import SubscriptionPage from "@/ui/pages/subscription/index.jsx";
+import SubscriptionRequestsPage from "@/ui/pages/subscription-requests/index.jsx";
 import SubscriptionCreatePage from "@/ui/pages/subscription-create/index.jsx";
 import SubscriptionEditPage from "@/ui/pages/subscription-edit/index.jsx";
 import SubscriptionCodesPage from "@/ui/pages/subscription-codes/index.jsx";
@@ -68,6 +69,7 @@ function App() {
                                     <Route path="/advisor" element={<AdvisorPage/>}/>
                                     <Route path="/promotion" element={<PromotionPage/>}/>
                                     <Route path="/subscription" element={<SubscriptionPage/>}/>
+                                    <Route path="/subscription/requests" element={<SubscriptionRequestsPage/>}/>
                                     <Route path="/subscription/create" element={<SubscriptionCreatePage/>}/>
                                     <Route path="/subscription/:subscriptionId/edit" element={<SubscriptionEditPage/>}/>
                                     <Route path="/subscription/:subscriptionId/codes"

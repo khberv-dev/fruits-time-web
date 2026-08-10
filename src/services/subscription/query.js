@@ -1,11 +1,13 @@
-import {useQuery} from "@tanstack/react-query";
+import {keepPreviousData, useQuery} from "@tanstack/react-query";
 import {
     createSubscription,
     generateSubscriptionCodes,
     getAllSubscriptions,
     getSubscription,
     getSubscriptionCodes,
+    getSubscriptionRequests,
     updateSubscription,
+    updateSubscriptionRequestStatus,
 } from "@/services/subscription/api.js";
 import {useInfoMutation} from "@/services/query.js";
 
@@ -36,6 +38,18 @@ export const useCreateSubscription = () => useInfoMutation({
 export const useUpdateSubscription = () => useInfoMutation({
     queryKey: ['subscription'],
     mutationFn: ({subscriptionId, data, locale}) => updateSubscription(subscriptionId, data, locale),
+})
+
+// Oldest first — this is a queue of customers waiting to be called.
+export const useGetSubscriptionRequests = ({page = 1, pageSize = 20, status} = {}) => useQuery({
+    queryKey: ['subscription', 'request', page, pageSize, status],
+    queryFn: () => getSubscriptionRequests(page, pageSize, status),
+    placeholderData: keepPreviousData,
+})
+
+export const useUpdateSubscriptionRequestStatus = () => useInfoMutation({
+    queryKey: ['subscription'],
+    mutationFn: ({requestId, status}) => updateSubscriptionRequestStatus(requestId, status),
 })
 
 export const useGenerateSubscriptionCodes = () => useInfoMutation({

@@ -25,6 +25,16 @@ export async function getSubscriptionCodes(subscriptionId) {
     return res.data
 }
 
+export async function getSubscriptionRequests(page, pageSize, status) {
+    const res = await api.get('subscription/request', {params: {page, pageSize, status}})
+    return res.data
+}
+
+export async function updateSubscriptionRequestStatus(requestId, status) {
+    const res = await api.patch(`subscription/request/${requestId}`, {status})
+    return res.data
+}
+
 export async function generateSubscriptionCodes(subscriptionId, count) {
     const res = await api.post(`subscription/${subscriptionId}/codes`, {count})
     return res.data

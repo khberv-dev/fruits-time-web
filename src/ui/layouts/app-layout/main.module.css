@@ -2,6 +2,12 @@
     height: 100vh;
 }
 
+/* Indents a nav sub-item. Only shows in the expanded aside — in compact mode the item
+   is its icon alone. */
+.subItem {
+    padding-left: 12px;
+}
+
 .wrapper {
     display: flex;
     flex-direction: column;
